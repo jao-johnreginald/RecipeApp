@@ -12,6 +12,15 @@ constraintlayout = "2.1.4"
 ksp = "1.9.0-1.0.13"
 navigation = "2.7.7"
 hilt = "2.49"
+room = "2.6.1"
+datastore = "1.1.1"
+retrofit = "2.9.0"
+coroutines = "1.7.3"
+lifecycle = "2.8.4"
+coil = "2.3.0"
+gson = "2.10.1"
+shimmer = "0.5.0"
+jsoup = "1.16.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +37,31 @@ navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.
 # Dagger - Hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+# Room components
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+# DataStore
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+# Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+# Coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+# Lifecycle
+lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+# Image Loading library Coil
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+# Gson
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+# Shimmer
+shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
+# Jsoup
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
