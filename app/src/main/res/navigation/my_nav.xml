@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.johnreg.recipeapp.RecipesFragment"
+        android:name="com.johnreg.recipeapp.ui.main.RecipesFragment"
         android:label="Recipes"
         tools:layout="@layout/fragment_recipes">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.johnreg.recipeapp.FavoritesFragment"
+        android:name="com.johnreg.recipeapp.ui.main.FavoritesFragment"
         android:label="Favorites"
         tools:layout="@layout/fragment_favorites">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/jokesFragment"
-        android:name="com.johnreg.recipeapp.JokesFragment"
+        android:name="com.johnreg.recipeapp.ui.main.JokesFragment"
         android:label="Food Jokes"
         tools:layout="@layout/fragment_jokes">
         <action

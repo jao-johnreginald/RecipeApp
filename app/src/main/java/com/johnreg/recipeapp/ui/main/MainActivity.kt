@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp
+package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

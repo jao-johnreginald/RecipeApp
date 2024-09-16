@@ -1,20 +1,20 @@
-package com.johnreg.recipeapp
+package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.johnreg.recipeapp.databinding.FragmentJokesBinding
+import com.johnreg.recipeapp.databinding.FragmentFavoritesBinding
 
-class JokesFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
-    private lateinit var binding: FragmentJokesBinding
+    private lateinit var binding: FragmentFavoritesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJokesBinding.inflate(inflater, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 

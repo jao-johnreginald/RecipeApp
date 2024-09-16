@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp
+package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
