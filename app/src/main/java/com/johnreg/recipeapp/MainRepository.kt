@@ -12,7 +12,7 @@ Since we're going to inject this Repository in a ViewModel later, I have just ad
 and we're going to have the same instance even when a user is rotating the screen
  */
 @ActivityRetainedScoped
-class Repository @Inject constructor(
+class MainRepository @Inject constructor(
     remoteDataSource: RemoteDataSource
 ) {
     val remote = remoteDataSource
