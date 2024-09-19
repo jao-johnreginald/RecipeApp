@@ -3,12 +3,14 @@ package com.johnreg.recipeapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.utils.DiffUtilCallback
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() {
 
@@ -27,7 +29,10 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() 
     }
 
     fun setResults(recipe: Recipe) {
+        val diffUtilCallback = DiffUtilCallback(results, recipe.results)
+        val diffUtilResult = DiffUtil.calculateDiff(diffUtilCallback)
         results = recipe.results
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 
     inner class RecipesViewHolder(
