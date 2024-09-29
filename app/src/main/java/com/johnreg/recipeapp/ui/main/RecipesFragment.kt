@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
-import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.viewmodels.MainViewModel
+import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +22,7 @@ class RecipesFragment : Fragment() {
     private val recipesAdapter by lazy { RecipesAdapter() }
 
     private val mainViewModel: MainViewModel by viewModels()
+    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,7 +46,8 @@ class RecipesFragment : Fragment() {
     }
 
     private fun requestApiData() {
-        mainViewModel.getRecipe(getQueries())
+        mainViewModel.getRecipe(recipeViewModel.getQueries())
+
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
@@ -68,14 +70,5 @@ class RecipesFragment : Fragment() {
             }
         }
     }
-
-    private fun getQueries(): HashMap<String, String> = hashMapOf(
-        "number" to "50",
-        "apiKey" to API_KEY,
-        "type" to "snack",
-        "diet" to "vegan",
-        "addRecipeInformation" to "true",
-        "fillIngredients" to "true"
-    )
 
 }
