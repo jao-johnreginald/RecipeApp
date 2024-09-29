@@ -14,12 +14,7 @@
 .cxx
 local.properties
 
-*.aab
-*.apk
+*.jks
+*.log
 google-services.json
-.idea/compiler.xml
-.idea/deploymentTargetDropDown.xml
-.idea/deploymentTargetSelector.xml
-.idea/gradle.xml
-.idea/misc.xml
-.idea/vcs.xml
+.idea
