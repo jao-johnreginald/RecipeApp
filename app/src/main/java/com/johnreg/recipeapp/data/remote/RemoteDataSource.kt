@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp
+package com.johnreg.recipeapp.data.remote
 
 import com.johnreg.recipeapp.models.Recipe
 import retrofit2.Response

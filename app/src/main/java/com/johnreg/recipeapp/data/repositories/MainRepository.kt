@@ -1,5 +1,6 @@
-package com.johnreg.recipeapp
+package com.johnreg.recipeapp.data.repositories
 
+import com.johnreg.recipeapp.data.remote.RemoteDataSource
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 

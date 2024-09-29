@@ -1,6 +1,6 @@
 package com.johnreg.recipeapp.di
 
-import com.johnreg.recipeapp.RecipeApi
+import com.johnreg.recipeapp.data.remote.RecipeApi
 import com.johnreg.recipeapp.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
