@@ -6,4 +6,7 @@ object Constants {
 
     const val BASE_URL = "https://api.spoonacular.com"
 
+    const val DURATION_MILLIS = 600
+    const val TOTAL_MAX = 9999
+
 }

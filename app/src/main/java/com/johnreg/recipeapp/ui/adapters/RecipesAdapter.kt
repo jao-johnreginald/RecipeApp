@@ -10,6 +10,8 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
+import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.DiffUtilCallback
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() {
@@ -42,15 +44,18 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() 
             // Use the coil image loading library to load this image from the url into our ImageView
             binding.ivRecipe.load(result.imageUrl) {
                 // When our image is loading or when it is loaded, it will have a fade in animation
-                // of 600 milliseconds, we will see that effect when we start fetching some api data
-                crossfade(600)
+                // of DURATION_MILLIS, we will see that effect when we start fetching some api data
+                crossfade(DURATION_MILLIS)
             }
 
             binding.tvTitle.text = result.title
             binding.tvDescription.text = result.description
 
-            binding.tvHeart.text = result.totalLikes.toString()
-            binding.tvClock.text = result.totalMinutes.toString()
+            binding.tvHeart.text = if (result.totalLikes > TOTAL_MAX) TOTAL_MAX.toString()
+            else result.totalLikes.toString()
+
+            binding.tvClock.text = if (result.totalMinutes > TOTAL_MAX) TOTAL_MAX.toString()
+            else result.totalMinutes.toString()
 
             if (result.isVegan) {
                 binding.ivLeaf.setColorFilter(getColor(itemView.context, R.color.green))
