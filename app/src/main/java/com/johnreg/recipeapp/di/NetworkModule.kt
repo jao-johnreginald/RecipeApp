@@ -31,7 +31,9 @@ object NetworkModule {
      */
     @Singleton
     @Provides
-    fun provideRecipeApi(retrofit: Retrofit): RecipeApi {
+    fun provideRecipeApi(
+        retrofit: Retrofit
+    ): RecipeApi {
         return retrofit.create(RecipeApi::class.java)
     }
 
