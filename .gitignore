@@ -17,4 +17,6 @@ local.properties
 *.jks
 *.log
 google-services.json
+debug
+release
 .idea
