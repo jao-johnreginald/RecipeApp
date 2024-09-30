@@ -46,7 +46,7 @@ class RecipesFragment : Fragment() {
     }
 
     private fun requestApiData() {
-        mainViewModel.getRecipe(recipeViewModel.getQueries())
+        mainViewModel.getRecipe(recipeViewModel.getQueryMap())
 
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
             when (response) {

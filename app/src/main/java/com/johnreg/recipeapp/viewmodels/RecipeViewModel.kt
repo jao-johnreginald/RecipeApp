@@ -17,7 +17,7 @@ class RecipeViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    fun getQueries(): HashMap<String, String> = hashMapOf(
+    fun getQueryMap(): HashMap<String, String> = hashMapOf(
         QUERY_NUMBER to "50",
         QUERY_API_KEY to API_KEY,
         QUERY_TYPE to "snack",
