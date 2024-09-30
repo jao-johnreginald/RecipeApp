@@ -13,7 +13,6 @@ import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,40 +24,26 @@ class MainViewModel @Inject constructor(
     private val _recipeResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
     val recipeResponse: LiveData<NetworkResult<Recipe>> get() = _recipeResponse
 
-    fun getRecipe(queries: Map<String, String>) = viewModelScope.launch {
-        getRecipeSafeCall(queries)
-    }
-
-    private suspend fun getRecipeSafeCall(queries: Map<String, String>) {
+    fun getRecipe(queryMap: Map<String, String>) = viewModelScope.launch {
         _recipeResponse.value = NetworkResult.Loading()
-        if (hasInternetConnection()) {
+        _recipeResponse.value = if (hasInternetConnection()) {
             try {
-                val response = repository.remote.getRecipe(queries)
-                _recipeResponse.value = handleRecipeResponse(response)
+                val response = repository.remote.getRecipe(queryMap)
+                val recipe = response.body()!!
+                when {
+                    response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
+                    response.code() == 402 -> NetworkResult.Error("API Key Limited.")
+                    recipe.results.isEmpty() -> NetworkResult.Error("Recipes not found.")
+
+                    response.isSuccessful -> NetworkResult.Success(recipe)
+
+                    else -> NetworkResult.Error(response.message())
+                }
             } catch (e: Exception) {
-                _recipeResponse.value = NetworkResult.Error(
-                    "Recipes not found. ${e.localizedMessage}"
-                )
+                NetworkResult.Error("Recipes not found. ${e.localizedMessage}")
             }
         } else {
-            _recipeResponse.value = NetworkResult.Error("No Internet Connection.")
-        }
-    }
-
-    private fun handleRecipeResponse(response: Response<Recipe>): NetworkResult<Recipe> {
-        return when {
-            response.message().toString().contains("timeout") -> NetworkResult.Error("Timeout.")
-
-            response.code() == 402 -> NetworkResult.Error("API Key Limited.")
-
-            response.body()!!.results.isEmpty() -> NetworkResult.Error("Recipes not found.")
-
-            response.isSuccessful -> {
-                val recipe = response.body()
-                NetworkResult.Success(recipe!!)
-            }
-
-            else -> NetworkResult.Error(response.message())
+            NetworkResult.Error("No Internet Connection.")
         }
     }
 
@@ -68,7 +53,6 @@ class MainViewModel @Inject constructor(
         ) as ConnectivityManager
 
         val activeNetwork = connectivityManager.activeNetwork ?: return false
-
         val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
 
         return when {
