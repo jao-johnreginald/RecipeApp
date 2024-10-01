@@ -1,5 +1,6 @@
 package com.johnreg.recipeapp.data.repositories
 
+import com.johnreg.recipeapp.data.local.LocalDataSource
 import com.johnreg.recipeapp.data.remote.RemoteDataSource
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
@@ -14,5 +15,6 @@ and we're going to have the same instance even when a user is rotating the scree
  */
 @ActivityRetainedScoped
 data class MainRepository @Inject constructor(
+    val local: LocalDataSource,
     val remote: RemoteDataSource
 )
