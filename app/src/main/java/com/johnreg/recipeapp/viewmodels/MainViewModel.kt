@@ -7,11 +7,14 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,10 +24,19 @@ class MainViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    /** LOCAL DATABASE */
+    val recipes: LiveData<List<RecipeEntity>> = repository.local.getRecipes().asLiveData()
+
+    private fun insertRecipe(recipeEntity: RecipeEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertRecipe(recipeEntity)
+    }
+
+    /** REMOTE API */
     private val _recipeResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
     val recipeResponse: LiveData<NetworkResult<Recipe>> get() = _recipeResponse
 
     fun getRecipe(queryMap: Map<String, String>) = viewModelScope.launch {
+        // Set the value of the MutableLiveData
         _recipeResponse.value = NetworkResult.Loading()
         _recipeResponse.value = if (hasInternetConnection()) {
             try {
@@ -44,6 +56,11 @@ class MainViewModel @Inject constructor(
             }
         } else {
             NetworkResult.Error("No Internet Connection.")
+        }
+
+        // At this stage the value has already been set, if the data is not null, cache the data
+        _recipeResponse.value!!.data?.let { recipe ->
+            insertRecipe(RecipeEntity(recipe))
         }
     }
 
