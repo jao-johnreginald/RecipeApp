@@ -4,11 +4,10 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.johnreg.recipeapp.models.Recipe
-import javax.inject.Inject
 
-class RecipeConverter @Inject constructor(
-    private val gson: Gson
-) {
+class RecipeConverter {
+
+    private val gson: Gson = Gson()
 
     @TypeConverter
     fun recipeToString(recipe: Recipe): String {
