@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.NetworkResult
+import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,7 @@ class RecipesFragment : Fragment() {
 
     private fun checkDatabase() {
         lifecycleScope.launch {
-            mainViewModel.recipes.observe(viewLifecycleOwner) { database ->
+            mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
                 // If database is not empty, load data from cache, if it is, request a new data
                 if (database.isNotEmpty()) {
                     Log.d("RecipesFragment", "inside database.isNotEmpty()")
