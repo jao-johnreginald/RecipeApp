@@ -1,11 +1,13 @@
 package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
@@ -13,6 +15,7 @@ import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
@@ -35,7 +38,7 @@ class RecipesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
-        requestApiData()
+        checkDatabase()
     }
 
     private fun setRecyclerView() {
@@ -45,7 +48,22 @@ class RecipesFragment : Fragment() {
         }
     }
 
+    private fun checkDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.recipes.observe(viewLifecycleOwner) { database ->
+                // If database is not empty, load data from cache, if it is, request a new data
+                if (database.isNotEmpty()) {
+                    Log.d("RecipesFragment", "inside database.isNotEmpty()")
+                    binding.shimmerFrameLayout.visibility = View.INVISIBLE
+                    val recipe = database[0].recipe
+                    recipesAdapter.setResults(recipe)
+                } else requestApiData()
+            }
+        }
+    }
+
     private fun requestApiData() {
+        Log.d("RecipesFragment", "inside requestApiData()")
         mainViewModel.getRecipe(recipeViewModel.getQueryMap())
 
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
