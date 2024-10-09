@@ -3,4 +3,7 @@
     <string name="recipes">Recipes</string>
     <string name="favorites">Favorites</string>
     <string name="food_jokes">Food Jokes</string>
+
+    <string name="open_bottom_sheet">Open bottom sheet</string>
+    <string name="error_image">Error image</string>
 </resources>
