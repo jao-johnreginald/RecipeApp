@@ -46,6 +46,8 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() 
                 // When our image is loading or when it is loaded, it will have a fade in animation
                 // of DURATION_MILLIS, we will see that effect when we start fetching some api data
                 crossfade(DURATION_MILLIS)
+                // The images that were not cached correctly will display this error icon
+                error(R.drawable.ic_error)
             }
 
             binding.tvTitle.text = result.title
