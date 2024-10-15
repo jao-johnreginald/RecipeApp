@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.NetworkResult
@@ -38,14 +40,18 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setRecyclerView()
+        setRvAndFab()
         checkDatabase()
     }
 
-    private fun setRecyclerView() {
+    private fun setRvAndFab() {
         binding.rvRecipes.apply {
             adapter = recipesAdapter
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        binding.fabRecipes.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
         }
     }
 

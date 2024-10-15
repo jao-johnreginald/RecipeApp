@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_recipesFragment_to_jokesFragment"
             app:destination="@id/jokesFragment" />
+        <action
+            android:id="@+id/action_recipesFragment_to_recipesBottomSheet"
+            app:destination="@id/recipesBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -40,4 +43,13 @@
             android:id="@+id/action_jokesFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/recipesBottomSheet"
+        android:name="com.johnreg.recipeapp.ui.main.RecipesBottomSheet"
+        android:label="bottom_sheet_recipes"
+        tools:layout="@layout/bottom_sheet_recipes">
+        <action
+            android:id="@+id/action_recipesBottomSheet_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+    </dialog>
 </navigation>
