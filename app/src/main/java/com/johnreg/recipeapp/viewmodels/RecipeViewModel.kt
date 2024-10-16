@@ -20,7 +20,7 @@ class RecipeViewModel @Inject constructor(
     fun getQueryMap(): HashMap<String, String> = hashMapOf(
         QUERY_NUMBER to "50",
         QUERY_API_KEY to API_KEY,
-        QUERY_TYPE to "snack",
+        QUERY_TYPE to "main course",
         QUERY_DIET to "vegan",
         QUERY_ADD_RECIPE_INFORMATION to "true",
         QUERY_FILL_INGREDIENTS to "true"
