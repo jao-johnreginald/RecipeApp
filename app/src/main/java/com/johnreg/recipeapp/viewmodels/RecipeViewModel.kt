@@ -3,6 +3,9 @@ package com.johnreg.recipeapp.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.johnreg.recipeapp.utils.Constants.API_KEY
+import com.johnreg.recipeapp.utils.Constants.DEFAULT_DIET_TYPE
+import com.johnreg.recipeapp.utils.Constants.DEFAULT_MEAL_TYPE
+import com.johnreg.recipeapp.utils.Constants.DEFAULT_RESULT_COUNT
 import com.johnreg.recipeapp.utils.Constants.QUERY_ADD_RECIPE_INFORMATION
 import com.johnreg.recipeapp.utils.Constants.QUERY_API_KEY
 import com.johnreg.recipeapp.utils.Constants.QUERY_DIET
@@ -18,10 +21,10 @@ class RecipeViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     fun getQueryMap(): HashMap<String, String> = hashMapOf(
-        QUERY_NUMBER to "50",
+        QUERY_NUMBER to DEFAULT_RESULT_COUNT,
         QUERY_API_KEY to API_KEY,
-        QUERY_TYPE to "main course",
-        QUERY_DIET to "vegan",
+        QUERY_TYPE to DEFAULT_MEAL_TYPE,
+        QUERY_DIET to DEFAULT_DIET_TYPE,
         QUERY_ADD_RECIPE_INFORMATION to "true",
         QUERY_FILL_INGREDIENTS to "true"
     )

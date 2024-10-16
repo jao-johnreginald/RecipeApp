@@ -13,6 +13,10 @@ object Constants {
     const val QUERY_ADD_RECIPE_INFORMATION = "addRecipeInformation"
     const val QUERY_FILL_INGREDIENTS = "fillIngredients"
 
+    const val DEFAULT_RESULT_COUNT = "50"
+    const val DEFAULT_MEAL_TYPE = "main course"
+    const val DEFAULT_DIET_TYPE = "vegan"
+
     const val DURATION_MILLIS = 600
     const val TOTAL_MAX = 9999
 
