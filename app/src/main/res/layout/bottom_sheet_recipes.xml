@@ -46,99 +46,99 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_main_course"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/main_course" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_side_dish"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/side_dish" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_dessert"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dessert" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_appetizer"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/appetizer" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_salad"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/salad" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_bread"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bread" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_breakfast"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/breakfast" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_soup"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/soup" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_beverage"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/beverage" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_sauce"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sauce" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_marinade"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/marinade" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_finger_food"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/finger_food" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_snack"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/snack" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_drink"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/drink" />
@@ -185,64 +185,64 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_gluten_free"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/gluten_free" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_ketogenic"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ketogenic" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_vegetarian"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vegetarian" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_vegan"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vegan" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_pescetarian"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pescetarian" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_paleo"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/paleo" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_primal"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/primal" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_low_fodmap"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/low_fodmap" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/ChipFilter"
                     android:id="@+id/chip_whole30"
+                    style="@style/ChipFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/whole30" />
