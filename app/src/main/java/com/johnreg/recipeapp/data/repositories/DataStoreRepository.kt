@@ -21,8 +21,11 @@ class DataStoreRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
+    // Create our DataStore, the main difference between DataStore and SharedPreferences
+    // is that DataStore is running on a background thread and not on the main thread
     private val Context.dataStore by preferencesDataStore("types_preferences")
 
+    // Define all our keys which we're going to use for our DataStore Preferences
     private object Keys {
         val mealTypeName = stringPreferencesKey("meal_type_name")
         val mealTypeId = intPreferencesKey("meal_type_id")
@@ -30,6 +33,7 @@ class DataStoreRepository @Inject constructor(
         val dietTypeId = intPreferencesKey("diet_type_id")
     }
 
+    // Save our selected bottom sheet chips' values inside our DataStore Preferences using those Keys
     suspend fun setTypesPreferences(
         mealTypeName: String,
         mealTypeId: Int,
@@ -46,7 +50,10 @@ class DataStoreRepository @Inject constructor(
 
     fun getTypesPreferences(): Flow<Types> {
         return context.dataStore.data
+            // Catch an exception if there is one, if it is an IOException, emit
+            // an emptyPreferences from this Flow, else, just re-throw the exception
             .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
+            // Create a Types object and emit that object using the Flow
             .map { preferences ->
                 Types(
                     mealTypeName = preferences[Keys.mealTypeName] ?: DEFAULT_MEAL_TYPE,
