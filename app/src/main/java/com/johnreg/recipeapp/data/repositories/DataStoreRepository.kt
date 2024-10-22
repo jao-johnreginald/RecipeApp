@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.johnreg.recipeapp.utils.Constants.DEFAULT_CHIP_ID
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_DIET_TYPE
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_MEAL_TYPE
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -57,9 +58,9 @@ class DataStoreRepository @Inject constructor(
             .map { preferences ->
                 Types(
                     mealTypeName = preferences[Keys.mealTypeName] ?: DEFAULT_MEAL_TYPE,
-                    mealTypeId = preferences[Keys.mealTypeId] ?: 0,
+                    mealTypeId = preferences[Keys.mealTypeId] ?: DEFAULT_CHIP_ID,
                     dietTypeName = preferences[Keys.dietTypeName] ?: DEFAULT_DIET_TYPE,
-                    dietTypeId = preferences[Keys.dietTypeId] ?: 0
+                    dietTypeId = preferences[Keys.dietTypeId] ?: DEFAULT_CHIP_ID
                 )
             }
     }
