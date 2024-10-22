@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -90,6 +91,10 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         binding.btnApply.setOnClickListener {
             recipeViewModel.saveMealAndDietType(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
+
+            findNavController().navigate(
+                RecipesBottomSheetDirections.actionRecipesBottomSheetToRecipesFragment(true)
+            )
         }
     }
 

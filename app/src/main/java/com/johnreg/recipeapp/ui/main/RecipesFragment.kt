@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
@@ -30,6 +31,8 @@ class RecipesFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
 
+    private val args: RecipesFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -41,7 +44,7 @@ class RecipesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setRvAndFab()
-        checkDatabase()
+        checkDatabaseAndArgs()
     }
 
     private fun setRvAndFab() {
@@ -55,16 +58,17 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    private fun checkDatabase() {
+    private fun checkDatabaseAndArgs() {
         lifecycleScope.launch {
             mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                // If database is not empty, load data from cache, if it is, request a new data
-                if (database.isNotEmpty()) {
-                    Log.d("RecipesFragment", "inside database.isNotEmpty()")
+                if (database.isEmpty() || args.isApplyButtonClicked) {
+                    requestApiData()
+                } else {
+                    Log.d("RecipesFragment", "inside else block")
                     binding.shimmerFrameLayout.visibility = View.INVISIBLE
-                    val recipe = database[0].recipe
+                    val recipe = database.first().recipe
                     recipesAdapter.setResults(recipe)
-                } else requestApiData()
+                }
             }
         }
     }
