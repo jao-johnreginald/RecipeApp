@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +34,8 @@ class RecipesFragment : Fragment() {
 
     private val args: RecipesFragmentArgs by navArgs()
 
+    private var networkToggleCount = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -43,8 +46,33 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showNetworkToast()
         setRvAndFab()
         checkDatabaseAndArgs()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        networkToggleCount = 0
+    }
+
+    private fun showNetworkToast() {
+        recipeViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isNetworkAvailable ->
+            if (isNetworkAvailable) {
+                Log.d("NetworkCallback", "isNetworkAvailable: $isNetworkAvailable")
+                if (networkToggleCount <= 1) networkToggleCount++
+            } else {
+                Log.d("NetworkCallback", "isNetworkAvailable: $isNetworkAvailable")
+                if (networkToggleCount <= 1) networkToggleCount++
+                Toast.makeText(
+                    requireContext(), "No Internet Connection.", Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            if (isNetworkAvailable && networkToggleCount >= 2) {
+                Toast.makeText(requireContext(), "We're Back Online.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setRvAndFab() {
@@ -54,7 +82,17 @@ class RecipesFragment : Fragment() {
         }
 
         binding.fabRecipes.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            recipeViewModel.isNetworkAvailable.observeOnce(
+                viewLifecycleOwner
+            ) { isNetworkAvailable ->
+                if (isNetworkAvailable) {
+                    findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+                } else {
+                    Toast.makeText(
+                        requireContext(), "No Internet Connection.", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -65,7 +103,6 @@ class RecipesFragment : Fragment() {
                     requestApiData()
                 } else {
                     Log.d("RecipesFragment", "else block called")
-                    binding.shimmerFrameLayout.visibility = View.INVISIBLE
                     val recipe = database.first().recipe
                     recipesAdapter.setResults(recipe)
                 }
@@ -93,6 +130,8 @@ class RecipesFragment : Fragment() {
 
                 is NetworkResult.Loading -> {
                     binding.shimmerFrameLayout.visibility = View.VISIBLE
+                    binding.ivError.visibility = View.INVISIBLE
+                    binding.tvError.visibility = View.INVISIBLE
                 }
             }
         }
