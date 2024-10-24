@@ -42,19 +42,20 @@ class MainViewModel @Inject constructor(
         _recipeResponse.value = if (hasInternetConnection()) {
             try {
                 val response = repository.remote.getRecipe(queryMap)
-                val recipe = response.body()!!
+                val recipe = response.body()
                 Log.d("RecipesFragment", "Request URL: ${response.raw().request.url}")
                 when {
                     response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
                     response.code() == 402 -> NetworkResult.Error("API Key Limited.")
-                    recipe.results.isEmpty() -> NetworkResult.Error("Recipes not found.")
+                    recipe?.results!!.isEmpty() -> NetworkResult.Error("Recipes Not Found.")
 
                     response.isSuccessful -> NetworkResult.Success(recipe)
 
                     else -> NetworkResult.Error(response.message())
                 }
             } catch (e: Exception) {
-                NetworkResult.Error("Recipes not found. ${e.localizedMessage}")
+                Log.e("RecipesFragment", e.localizedMessage, e)
+                NetworkResult.Error("Recipes Not Found.\n${e.localizedMessage?.uppercase()}")
             }
         } else {
             NetworkResult.Error("No Internet Connection.")
