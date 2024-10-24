@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -42,6 +43,7 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.remote.getRecipe(queryMap)
                 val recipe = response.body()!!
+                Log.d("RecipesFragment", "Request URL: ${response.raw().request.url}")
                 when {
                     response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
                     response.code() == 402 -> NetworkResult.Error("API Key Limited.")

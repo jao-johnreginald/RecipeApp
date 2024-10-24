@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
@@ -47,7 +46,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setData() {
-        recipeViewModel.types.asLiveData().observeOnce(viewLifecycleOwner) { types ->
+        recipeViewModel.types.observeOnce(viewLifecycleOwner) { types ->
             mealTypeName = types.mealTypeName
             dietTypeName = types.dietTypeName
 

@@ -64,7 +64,7 @@ class RecipesFragment : Fragment() {
                 if (database.isEmpty() || args.isApplyButtonClicked) {
                     requestApiData()
                 } else {
-                    Log.d("RecipesFragment", "inside else block")
+                    Log.d("RecipesFragment", "else block called")
                     binding.shimmerFrameLayout.visibility = View.INVISIBLE
                     val recipe = database.first().recipe
                     recipesAdapter.setResults(recipe)
@@ -74,9 +74,7 @@ class RecipesFragment : Fragment() {
     }
 
     private fun requestApiData() {
-        Log.d("RecipesFragment", "inside requestApiData()")
-        mainViewModel.getRecipe(recipeViewModel.getQueryMap())
-
+        Log.d("RecipesFragment", "requestApiData() called")
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
@@ -97,6 +95,12 @@ class RecipesFragment : Fragment() {
                     binding.shimmerFrameLayout.visibility = View.VISIBLE
                 }
             }
+        }
+
+        recipeViewModel.types.observe(viewLifecycleOwner) { types ->
+            Log.d("RecipesFragment", types.toString())
+            val queryMap = recipeViewModel.getQueryMap(types.mealTypeName, types.dietTypeName)
+            mainViewModel.getRecipe(queryMap)
         }
     }
 
