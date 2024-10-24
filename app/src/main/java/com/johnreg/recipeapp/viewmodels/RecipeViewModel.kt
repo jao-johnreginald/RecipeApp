@@ -13,6 +13,7 @@ import com.johnreg.recipeapp.utils.Constants.QUERY_DIET
 import com.johnreg.recipeapp.utils.Constants.QUERY_FILL_INGREDIENTS
 import com.johnreg.recipeapp.utils.Constants.QUERY_NUMBER
 import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
+import com.johnreg.recipeapp.utils.NetworkCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,8 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
+    networkCallback: NetworkCallback,
     application: Application
 ) : AndroidViewModel(application) {
+
+    val isNetworkAvailable = networkCallback.isNetworkAvailable().asLiveData()
 
     val types = dataStoreRepository.getTypesPreferences().asLiveData()
 
