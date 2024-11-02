@@ -34,7 +34,7 @@ class RecipesFragment : Fragment() {
 
     private val args: RecipesFragmentArgs by navArgs()
 
-    private var networkToggleCount = 0
+    private var isNetworkObserved = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,25 +53,23 @@ class RecipesFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        networkToggleCount = 0
+        isNetworkObserved = false
     }
 
     private fun showNetworkToast() {
         recipeViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            if (isNetworkAvailable) {
-                Log.d("NetworkCallback", "isNetworkAvailable: $isNetworkAvailable")
-                if (networkToggleCount <= 1) networkToggleCount++
-            } else {
-                Log.d("NetworkCallback", "isNetworkAvailable: $isNetworkAvailable")
-                if (networkToggleCount <= 1) networkToggleCount++
+            if (!isNetworkAvailable) {
                 Toast.makeText(
                     requireContext(), "No Internet Connection.", Toast.LENGTH_SHORT
                 ).show()
             }
 
-            if (isNetworkAvailable && networkToggleCount >= 2) {
+            if (isNetworkAvailable && isNetworkObserved) {
                 Toast.makeText(requireContext(), "We're Back Online.", Toast.LENGTH_SHORT).show()
             }
+
+            Log.d("NetworkCallback", "Available: $isNetworkAvailable | Observe: $isNetworkObserved")
+            isNetworkObserved = true
         }
     }
 
