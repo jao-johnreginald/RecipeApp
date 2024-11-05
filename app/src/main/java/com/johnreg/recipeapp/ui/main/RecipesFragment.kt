@@ -3,9 +3,14 @@ package com.johnreg.recipeapp.ui.main
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,6 +51,7 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMenu()
         showNetworkToast()
         setRvAndFab()
         checkDatabaseAndArgs()
@@ -54,6 +60,29 @@ class RecipesFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         isNetworkObserved = false
+    }
+
+    private fun setMenu() {
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.recipes_menu, menu)
+                setSearchView(menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
+        })
+    }
+
+    private fun setSearchView(menu: Menu) {
+        val searchView = menu.findItem(R.id.menu_search).actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean = false
+        })
     }
 
     private fun showNetworkToast() {
