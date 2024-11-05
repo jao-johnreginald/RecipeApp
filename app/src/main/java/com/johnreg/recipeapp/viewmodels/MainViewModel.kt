@@ -1,9 +1,6 @@
 package com.johnreg.recipeapp.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -13,9 +10,11 @@ import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.models.Recipe
+import com.johnreg.recipeapp.utils.NetworkCallback
 import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -23,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: MainRepository,
+    private val networkCallback: NetworkCallback,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
     fun getRecipe(queryMap: Map<String, String>) = viewModelScope.launch {
         // Set the value of the MutableLiveData
         _recipeResponse.value = NetworkResult.Loading()
-        _recipeResponse.value = if (hasInternetConnection()) {
+        _recipeResponse.value = if (networkCallback.isNetworkAvailable().first()) {
             try {
                 val response = repository.remote.getRecipe(queryMap)
                 handleRecipeResponse(response)
@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
 
     fun searchRecipe(searchQueryMap: Map<String, String>) = viewModelScope.launch {
         _searchResponse.value = NetworkResult.Loading()
-        _searchResponse.value = if (hasInternetConnection()) {
+        _searchResponse.value = if (networkCallback.isNetworkAvailable().first()) {
             try {
                 val response = repository.remote.searchRecipe(searchQueryMap)
                 handleRecipeResponse(response)
@@ -87,22 +87,6 @@ class MainViewModel @Inject constructor(
             response.isSuccessful -> NetworkResult.Success(recipe)
 
             else -> NetworkResult.Error(response.message())
-        }
-    }
-
-    private fun hasInternetConnection(): Boolean {
-        val connectivityManager = getApplication<Application>().getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-
-        val activeNetwork = connectivityManager.activeNetwork ?: return false
-        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-
-        return when {
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
         }
     }
 
