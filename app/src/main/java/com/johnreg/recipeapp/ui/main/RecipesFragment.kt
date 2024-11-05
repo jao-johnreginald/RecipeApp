@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +22,7 @@ import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
+import com.johnreg.recipeapp.utils.showToast
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,15 +88,8 @@ class RecipesFragment : Fragment() {
 
     private fun showNetworkToast() {
         recipeViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            if (!isNetworkAvailable) {
-                Toast.makeText(
-                    requireContext(), "No Internet Connection.", Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            if (isNetworkAvailable && isNetworkObserved) {
-                Toast.makeText(requireContext(), "We're Back Online.", Toast.LENGTH_SHORT).show()
-            }
+            if (isNetworkAvailable && isNetworkObserved) showToast("We're Back Online.")
+            if (!isNetworkAvailable) showToast("No Internet Connection.")
 
             Log.d("NetworkCallback", "Available: $isNetworkAvailable | Observe: $isNetworkObserved")
             isNetworkObserved = true
@@ -116,9 +109,7 @@ class RecipesFragment : Fragment() {
                 if (isNetworkAvailable) {
                     findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
                 } else {
-                    Toast.makeText(
-                        requireContext(), "No Internet Connection.", Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("No Internet Connection.")
                 }
             }
         }
