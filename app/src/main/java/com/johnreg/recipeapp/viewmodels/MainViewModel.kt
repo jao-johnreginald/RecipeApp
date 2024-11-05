@@ -17,6 +17,7 @@ import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +35,10 @@ class MainViewModel @Inject constructor(
 
     /** REMOTE API */
     private val _recipeResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
+    private val _searchResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
+
     val recipeResponse: LiveData<NetworkResult<Recipe>> get() = _recipeResponse
+    val searchResponse: LiveData<NetworkResult<Recipe>> get() = _searchResponse
 
     fun getRecipe(queryMap: Map<String, String>) = viewModelScope.launch {
         // Set the value of the MutableLiveData
@@ -42,17 +46,7 @@ class MainViewModel @Inject constructor(
         _recipeResponse.value = if (hasInternetConnection()) {
             try {
                 val response = repository.remote.getRecipe(queryMap)
-                val recipe = response.body()
-                Log.d("RecipesFragment", "Request URL: ${response.raw().request.url}")
-                when {
-                    response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
-                    response.code() == 402 -> NetworkResult.Error("API Key Limited.")
-                    recipe?.results!!.isEmpty() -> NetworkResult.Error("Recipes Not Found.")
-
-                    response.isSuccessful -> NetworkResult.Success(recipe)
-
-                    else -> NetworkResult.Error(response.message())
-                }
+                handleRecipeResponse(response)
             } catch (e: Exception) {
                 Log.e("RecipesFragment", e.localizedMessage, e)
                 NetworkResult.Error("Recipes Not Found.\n${e.localizedMessage?.uppercase()}")
@@ -64,6 +58,35 @@ class MainViewModel @Inject constructor(
         // At this stage the value has already been set, if the data is not null, cache the data
         _recipeResponse.value!!.data?.let { recipe ->
             insertRecipe(RecipeEntity(recipe))
+        }
+    }
+
+    fun searchRecipe(searchQueryMap: Map<String, String>) = viewModelScope.launch {
+        _searchResponse.value = NetworkResult.Loading()
+        _searchResponse.value = if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.searchRecipe(searchQueryMap)
+                handleRecipeResponse(response)
+            } catch (e: Exception) {
+                Log.e("RecipesFragment", e.localizedMessage, e)
+                NetworkResult.Error("Recipes Not Found.\n${e.localizedMessage?.uppercase()}")
+            }
+        } else {
+            NetworkResult.Error("No Internet Connection.")
+        }
+    }
+
+    private fun handleRecipeResponse(response: Response<Recipe>): NetworkResult<Recipe> {
+        Log.d("RecipesFragment", "Request URL: ${response.raw().request.url}")
+        val recipe = response.body()
+        return when {
+            response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
+            response.code() == 402 -> NetworkResult.Error("API Key Limited.")
+            recipe?.results!!.isEmpty() -> NetworkResult.Error("Recipes Not Found.")
+
+            response.isSuccessful -> NetworkResult.Success(recipe)
+
+            else -> NetworkResult.Error(response.message())
         }
     }
 
