@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
+import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
@@ -79,11 +80,20 @@ class RecipesFragment : Fragment() {
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) searchApiData(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean = false
         })
+    }
+
+    private fun searchApiData(query: String) {
+        mainViewModel.searchResponse.observe(viewLifecycleOwner) { response ->
+            handleRecipeResponse(response)
+        }
+
+        mainViewModel.searchRecipe(recipeViewModel.searchQueryMap(query))
     }
 
     private fun showNetworkToast() {
@@ -132,33 +142,37 @@ class RecipesFragment : Fragment() {
     private fun requestApiData() {
         Log.d("RecipesFragment", "requestApiData() called")
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    binding.shimmerFrameLayout.visibility = View.INVISIBLE
-                    response.data?.let { recipe ->
-                        recipesAdapter.setResults(recipe)
-                    }
-                }
-
-                is NetworkResult.Error -> {
-                    binding.shimmerFrameLayout.visibility = View.INVISIBLE
-                    binding.ivError.visibility = View.VISIBLE
-                    binding.tvError.visibility = View.VISIBLE
-                    binding.tvError.text = response.message
-                }
-
-                is NetworkResult.Loading -> {
-                    binding.shimmerFrameLayout.visibility = View.VISIBLE
-                    binding.ivError.visibility = View.INVISIBLE
-                    binding.tvError.visibility = View.INVISIBLE
-                }
-            }
+            handleRecipeResponse(response)
         }
 
         recipeViewModel.types.observe(viewLifecycleOwner) { types ->
             Log.d("RecipesFragment", types.toString())
             val queryMap = recipeViewModel.getQueryMap(types.mealTypeName, types.dietTypeName)
             mainViewModel.getRecipe(queryMap)
+        }
+    }
+
+    private fun handleRecipeResponse(response: NetworkResult<Recipe>) {
+        when (response) {
+            is NetworkResult.Success -> {
+                binding.shimmerFrameLayout.visibility = View.INVISIBLE
+                response.data?.let { recipe ->
+                    recipesAdapter.setResults(recipe)
+                }
+            }
+
+            is NetworkResult.Error -> {
+                binding.shimmerFrameLayout.visibility = View.INVISIBLE
+                binding.ivError.visibility = View.VISIBLE
+                binding.tvError.visibility = View.VISIBLE
+                binding.tvError.text = response.message
+            }
+
+            is NetworkResult.Loading -> {
+                binding.shimmerFrameLayout.visibility = View.VISIBLE
+                binding.ivError.visibility = View.INVISIBLE
+                binding.tvError.visibility = View.INVISIBLE
+            }
         }
     }
 

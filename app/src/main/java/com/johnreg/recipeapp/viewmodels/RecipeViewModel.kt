@@ -12,6 +12,7 @@ import com.johnreg.recipeapp.utils.Constants.QUERY_API_KEY
 import com.johnreg.recipeapp.utils.Constants.QUERY_DIET
 import com.johnreg.recipeapp.utils.Constants.QUERY_FILL_INGREDIENTS
 import com.johnreg.recipeapp.utils.Constants.QUERY_NUMBER
+import com.johnreg.recipeapp.utils.Constants.QUERY_SEARCH
 import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,16 @@ class RecipeViewModel @Inject constructor(
         QUERY_API_KEY to API_KEY,
         QUERY_TYPE to mealType,
         QUERY_DIET to dietType,
+        QUERY_ADD_RECIPE_INFORMATION to "true",
+        QUERY_FILL_INGREDIENTS to "true"
+    )
+
+    fun searchQueryMap(
+        searchQuery: String
+    ): HashMap<String, String> = hashMapOf(
+        QUERY_SEARCH to searchQuery,
+        QUERY_NUMBER to DEFAULT_RESULT_COUNT,
+        QUERY_API_KEY to API_KEY,
         QUERY_ADD_RECIPE_INFORMATION to "true",
         QUERY_FILL_INGREDIENTS to "true"
     )
