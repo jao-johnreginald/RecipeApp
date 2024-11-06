@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
+import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
@@ -132,8 +133,7 @@ class RecipesFragment : Fragment() {
                     requestApiData()
                 } else {
                     Log.d("RecipesFragment", "else block called")
-                    val recipe = database.first().recipe
-                    recipesAdapter.setResults(recipe)
+                    loadDataFromCache(database)
                 }
             }
         }
@@ -152,10 +152,24 @@ class RecipesFragment : Fragment() {
         }
     }
 
+    private fun loadDataFromCache(database: List<RecipeEntity>) {
+        binding.shimmerFrameLayout.visibility = View.INVISIBLE
+        binding.rvRecipes.visibility = View.VISIBLE
+        binding.ivError.visibility = View.INVISIBLE
+        binding.tvError.visibility = View.INVISIBLE
+
+        val recipe = database.first().recipe
+        recipesAdapter.setResults(recipe)
+    }
+
     private fun handleRecipeResponse(response: NetworkResult<Recipe>) {
         when (response) {
             is NetworkResult.Success -> {
                 binding.shimmerFrameLayout.visibility = View.INVISIBLE
+                binding.rvRecipes.visibility = View.VISIBLE
+                binding.ivError.visibility = View.INVISIBLE
+                binding.tvError.visibility = View.INVISIBLE
+
                 response.data?.let { recipe ->
                     recipesAdapter.setResults(recipe)
                 }
@@ -163,13 +177,26 @@ class RecipesFragment : Fragment() {
 
             is NetworkResult.Error -> {
                 binding.shimmerFrameLayout.visibility = View.INVISIBLE
+                binding.rvRecipes.visibility = View.INVISIBLE
                 binding.ivError.visibility = View.VISIBLE
-                binding.tvError.visibility = View.VISIBLE
-                binding.tvError.text = response.message
+
+                binding.tvError.apply {
+                    visibility = View.VISIBLE
+                    text = response.message
+
+                    setOnClickListener {
+                        mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
+                            if (database.isEmpty()) {
+                                isClickable = false
+                            } else loadDataFromCache(database)
+                        }
+                    }
+                }
             }
 
             is NetworkResult.Loading -> {
                 binding.shimmerFrameLayout.visibility = View.VISIBLE
+                binding.rvRecipes.visibility = View.INVISIBLE
                 binding.ivError.visibility = View.INVISIBLE
                 binding.tvError.visibility = View.INVISIBLE
             }
