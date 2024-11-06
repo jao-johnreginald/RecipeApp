@@ -36,4 +36,6 @@
 
     <string name="open_bottom_sheet">Open bottom sheet</string>
     <string name="error_image">Error image</string>
+    <string name="load_cache">Load Cache?</string>
+    <string name="cache_is_empty">Cache Is Empty.</string>
 </resources>

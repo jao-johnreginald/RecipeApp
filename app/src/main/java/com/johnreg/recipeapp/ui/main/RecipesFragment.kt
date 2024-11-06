@@ -1,6 +1,10 @@
 package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -179,19 +183,9 @@ class RecipesFragment : Fragment() {
                 binding.shimmerFrameLayout.visibility = View.INVISIBLE
                 binding.rvRecipes.visibility = View.INVISIBLE
                 binding.ivError.visibility = View.VISIBLE
+                binding.tvError.visibility = View.VISIBLE
 
-                binding.tvError.apply {
-                    visibility = View.VISIBLE
-                    text = response.message
-
-                    setOnClickListener {
-                        mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                            if (database.isEmpty()) {
-                                isClickable = false
-                            } else loadDataFromCache(database)
-                        }
-                    }
-                }
+                setErrorTextAndListener(response.message)
             }
 
             is NetworkResult.Loading -> {
@@ -200,6 +194,39 @@ class RecipesFragment : Fragment() {
                 binding.ivError.visibility = View.INVISIBLE
                 binding.tvError.visibility = View.INVISIBLE
             }
+        }
+    }
+
+    private fun setErrorTextAndListener(message: String?) {
+        val fullMessage = "$message\n${getString(R.string.load_cache)}"
+        val spannableString = SpannableString(fullMessage)
+
+        // Handle click on "Load Cache?"
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
+                    if (database.isEmpty()) {
+                        binding.tvError.text = getString(R.string.cache_is_empty)
+                    } else loadDataFromCache(database)
+                }
+            }
+        }
+
+        val startIndex = fullMessage.indexOf(getString(R.string.load_cache))
+        val endIndex = startIndex + getString(R.string.load_cache).length
+
+        // Apply formatting to "Load Cache?"
+        spannableString.setSpan(
+            clickableSpan,
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Set the formatted text to the TextView and make the links clickable
+        binding.tvError.apply {
+            text = spannableString
+            movementMethod = LinkMovementMethod.getInstance()
         }
     }
 
