@@ -1,9 +1,13 @@
 package com.johnreg.recipeapp.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class Result(
-    @SerializedName("extendedIngredients") val ingredients: List<Ingredient>,
+    @SerializedName("extendedIngredients") val ingredients: @RawValue List<Ingredient>,
     @SerializedName("id") val recipeId: Int,
 
     @SerializedName("image") val imageUrl: String,
@@ -21,4 +25,4 @@ data class Result(
     @SerializedName("veryHealthy") val isHealthy: Boolean,
     @SerializedName("dairyFree") val isDairyFree: Boolean,
     @SerializedName("cheap") val isCheap: Boolean
-)
+) : Parcelable
