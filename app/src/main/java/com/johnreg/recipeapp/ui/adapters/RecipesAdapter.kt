@@ -3,6 +3,7 @@ package com.johnreg.recipeapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -10,6 +11,7 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.ui.main.RecipesFragmentDirections
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.DiffUtilCallback
@@ -62,6 +64,12 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() 
             if (result.isVegan) {
                 binding.ivLeaf.setColorFilter(getColor(itemView.context, R.color.green))
                 binding.tvLeaf.setTextColor(getColor(itemView.context, R.color.green))
+            }
+
+            itemView.setOnClickListener {
+                itemView.findNavController().navigate(
+                    RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                )
             }
         }
     }
