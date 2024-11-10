@@ -2,12 +2,18 @@ package com.johnreg.recipeapp.ui.details
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ActivityDetailsBinding
+import com.johnreg.recipeapp.ui.adapters.PagerAdapter
 
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
+
+    private val args: DetailsActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,12 +21,37 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setToolbar()
+        setViewPager2AndTabLayout()
     }
 
     private fun setToolbar() {
         binding.toolbar.setTitleTextColor(getColor(R.color.white))
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setViewPager2AndTabLayout() {
+        val fragments = arrayListOf(
+            OverviewFragment(),
+            IngredientsFragment(),
+            InstructionsFragment()
+        )
+
+        val titles = arrayListOf(
+            "Overview",
+            "Ingredients",
+            "Instructions"
+        )
+
+        val resultBundle = bundleOf(
+            "result_bundle" to args.result
+        )
+
+        binding.viewPager2.adapter = PagerAdapter(resultBundle, fragments, this)
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
+            tab.text = titles[position]
+        }.attach()
     }
 
 }
