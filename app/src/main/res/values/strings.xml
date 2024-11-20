@@ -4,6 +4,9 @@
     <string name="favorites">Favorites</string>
     <string name="food_jokes">Food Jokes</string>
     <string name="details">Details</string>
+    <string name="overview">Overview</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
 
     <string name="meal_type">Meal Type</string>
     <string name="main_course">Main Course</string>
@@ -34,6 +37,9 @@
 
     <string name="apply">Apply</string>
     <string name="search">Search</string>
+    <string name="cheap">Cheap</string>
+    <string name="healthy">Healthy</string>
+    <string name="dairy_free">Dairy Free</string>
 
     <string name="open_bottom_sheet">Open bottom sheet</string>
     <string name="error_image">Error image</string>
