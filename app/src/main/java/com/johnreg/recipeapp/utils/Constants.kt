@@ -19,6 +19,7 @@ object Constants {
     const val DEFAULT_DIET_TYPE = "vegan"
     const val DEFAULT_CHIP_ID = 0
 
+    const val RESULT_BUNDLE_KEY = "result_bundle"
     const val DURATION_MILLIS = 600
     const val TOTAL_MAX = 9999
 
