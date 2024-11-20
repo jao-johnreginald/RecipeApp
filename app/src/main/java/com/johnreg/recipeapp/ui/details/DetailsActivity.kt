@@ -38,9 +38,9 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         val titles = arrayListOf(
-            "Overview",
-            "Ingredients",
-            "Instructions"
+            getString(R.string.overview),
+            getString(R.string.ingredients),
+            getString(R.string.instructions)
         )
 
         val resultBundle = bundleOf(
