@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.models.Recipe
@@ -28,9 +29,22 @@ class MainViewModel @Inject constructor(
 
     /** LOCAL DATABASE */
     val recipes: LiveData<List<RecipeEntity>> = repository.local.getRecipes().asLiveData()
+    val favorites: LiveData<List<FavoriteEntity>> = repository.local.getFavorites().asLiveData()
 
     private fun insertRecipe(recipeEntity: RecipeEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.local.insertRecipe(recipeEntity)
+    }
+
+    fun insertFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertFavorite(favoriteEntity)
+    }
+
+    fun deleteFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.deleteFavorite(favoriteEntity)
+    }
+
+    fun deleteAllFavorites() = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.deleteAllFavorites()
     }
 
     /** REMOTE API */
