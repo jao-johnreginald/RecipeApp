@@ -41,6 +41,8 @@
     <string name="healthy">Healthy</string>
     <string name="dairy_free">Dairy Free</string>
 
+    <string name="save_to_favorites">Save to Favorites</string>
+
     <string name="open_bottom_sheet">Open bottom sheet</string>
     <string name="error_image">Error image</string>
     <string name="load_cache">Load Cache?</string>
