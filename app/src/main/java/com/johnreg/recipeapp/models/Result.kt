@@ -8,7 +8,7 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class Result(
     @SerializedName("extendedIngredients") val ingredients: @RawValue List<Ingredient>,
-    @SerializedName("id") val recipeId: Int,
+    @SerializedName("id") val id: Int,
 
     @SerializedName("image") val imageUrl: String,
     @SerializedName("title") val title: String,
