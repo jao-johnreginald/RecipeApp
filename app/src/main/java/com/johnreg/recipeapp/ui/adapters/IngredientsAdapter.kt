@@ -9,7 +9,6 @@ import com.johnreg.recipeapp.databinding.ItemIngredientBinding
 import com.johnreg.recipeapp.models.Ingredient
 import com.johnreg.recipeapp.utils.Constants.BASE_IMAGE_URL
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
-import java.util.Locale
 
 class IngredientsAdapter(
     private val ingredients: List<Ingredient>
@@ -37,10 +36,10 @@ class IngredientsAdapter(
             }
 
             binding.tvName.text = ingredient.name.replaceFirstChar { char ->
-                if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
+                if (char.isLowerCase()) char.titlecase() else char.toString()
             }
 
-            binding.tvAmount.text = String.format(Locale.ROOT, ingredient.amount.toString())
+            binding.tvAmount.text = ingredient.amount.toString()
             binding.tvUnit.text = ingredient.unit
             binding.tvConsistency.text = ingredient.consistency
             binding.tvOriginal.text = ingredient.original

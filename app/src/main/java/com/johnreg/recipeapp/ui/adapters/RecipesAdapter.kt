@@ -3,6 +3,7 @@ package com.johnreg.recipeapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.text.HtmlCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.johnreg.recipeapp.ui.main.RecipesFragmentDirections
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.DiffUtilCallback
+import org.jsoup.Jsoup
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() {
 
@@ -53,7 +55,9 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>() 
             }
 
             binding.tvTitle.text = result.title
-            binding.tvDescription.text = result.description
+            binding.tvDescription.text = HtmlCompat.fromHtml(
+                Jsoup.parse(result.description).html(), HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
 
             binding.tvHeart.text = if (result.totalLikes > TOTAL_MAX) TOTAL_MAX.toString()
             else result.totalLikes.toString()
