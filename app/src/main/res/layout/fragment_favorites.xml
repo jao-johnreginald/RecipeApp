@@ -7,4 +7,42 @@
     android:background="@color/lightGray"
     tools:context=".ui.main.FavoritesFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorites"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_no_data"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0.2"
+        android:src="@drawable/ic_menu_book"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:alpha="0.5"
+        android:text="@string/no_recipes_saved"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/iv_no_data"
+        app:layout_constraintStart_toStartOf="@id/iv_no_data"
+        app:layout_constraintTop_toBottomOf="@id/iv_no_data"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
