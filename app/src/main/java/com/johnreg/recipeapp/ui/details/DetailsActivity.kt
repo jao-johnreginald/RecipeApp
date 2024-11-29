@@ -118,7 +118,10 @@ class DetailsActivity : AppCompatActivity() {
             RESULT_BUNDLE_KEY to args.result
         )
 
-        binding.viewPager2.adapter = PagerAdapter(resultBundle, fragments, this)
+        binding.viewPager2.apply {
+            isUserInputEnabled = false
+            adapter = PagerAdapter(resultBundle, fragments, this@DetailsActivity)
+        }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = titles[position]

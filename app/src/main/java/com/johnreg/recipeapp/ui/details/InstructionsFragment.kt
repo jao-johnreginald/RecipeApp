@@ -24,15 +24,21 @@ class InstructionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val resultBundle = requireArguments().getParcelableExtra(RESULT_BUNDLE_KEY) as? Result
-        resultBundle?.let { setWebView(it) }
+        getResultBundleAndSetUI()
     }
 
-    private fun setWebView(result: Result) {
+    private fun getResultBundleAndSetUI() {
+        val resultBundle = requireArguments().getParcelableExtra(RESULT_BUNDLE_KEY) as? Result
+
+        resultBundle?.let { result ->
+            setWebView(result.sourceUrl)
+        }
+    }
+
+    private fun setWebView(sourceUrl: String) {
         binding.wvInstructions.apply {
             webViewClient = object : WebViewClient() {}
-            loadUrl(result.sourceUrl)
+            loadUrl(sourceUrl)
         }
     }
 
