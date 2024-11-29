@@ -31,14 +31,10 @@ class InstructionsFragment : Fragment() {
         val resultBundle = requireArguments().getParcelableExtra(RESULT_BUNDLE_KEY) as? Result
 
         resultBundle?.let { result ->
-            setWebView(result.sourceUrl)
-        }
-    }
-
-    private fun setWebView(sourceUrl: String) {
-        binding.wvInstructions.apply {
-            webViewClient = object : WebViewClient() {}
-            loadUrl(sourceUrl)
+            binding.wvInstructions.apply {
+                webViewClient = object : WebViewClient() {}
+                loadUrl(result.sourceUrl)
+            }
         }
     }
 

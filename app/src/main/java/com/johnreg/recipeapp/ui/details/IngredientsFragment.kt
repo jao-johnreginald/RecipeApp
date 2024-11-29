@@ -16,8 +16,6 @@ class IngredientsFragment : Fragment() {
 
     private lateinit var binding: FragmentIngredientsBinding
 
-    private val ingredientsAdapter by lazy { IngredientsAdapter() }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -27,23 +25,17 @@ class IngredientsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setRecyclerView()
         getResultBundleAndSetUI()
-    }
-
-    private fun setRecyclerView() {
-        binding.rvIngredients.apply {
-            adapter = ingredientsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
     }
 
     private fun getResultBundleAndSetUI() {
         val resultBundle = requireArguments().getParcelableExtra(RESULT_BUNDLE_KEY) as? Result
 
         resultBundle?.let { result ->
-            ingredientsAdapter.setIngredients(result.ingredients)
+            binding.rvIngredients.apply {
+                adapter = IngredientsAdapter(result.ingredients)
+                layoutManager = LinearLayoutManager(requireContext())
+            }
         }
     }
 

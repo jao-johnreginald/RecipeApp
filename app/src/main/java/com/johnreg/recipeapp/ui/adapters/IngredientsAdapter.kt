@@ -2,7 +2,6 @@ package com.johnreg.recipeapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.johnreg.recipeapp.R
@@ -10,12 +9,11 @@ import com.johnreg.recipeapp.databinding.ItemIngredientBinding
 import com.johnreg.recipeapp.models.Ingredient
 import com.johnreg.recipeapp.utils.Constants.BASE_IMAGE_URL
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
-import com.johnreg.recipeapp.utils.DiffUtilCallback
 import java.util.Locale
 
-class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
-
-    private var ingredients: List<Ingredient> = emptyList()
+class IngredientsAdapter(
+    private val ingredients: List<Ingredient>
+) : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 
     override fun getItemCount(): Int = ingredients.size
 
@@ -27,13 +25,6 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsVi
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(ingredients[position])
-    }
-
-    fun setIngredients(newIngredients: List<Ingredient>) {
-        val diffUtilCallback = DiffUtilCallback(ingredients, newIngredients)
-        val diffUtilResult = DiffUtil.calculateDiff(diffUtilCallback)
-        ingredients = newIngredients
-        diffUtilResult.dispatchUpdatesTo(this)
     }
 
     inner class IngredientsViewHolder(
