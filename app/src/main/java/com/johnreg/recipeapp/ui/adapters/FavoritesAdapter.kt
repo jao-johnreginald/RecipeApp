@@ -12,7 +12,7 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
 import com.johnreg.recipeapp.models.Result
-import com.johnreg.recipeapp.ui.main.RecipesFragmentDirections
+import com.johnreg.recipeapp.ui.main.FavoritesFragmentDirections
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.DiffUtilCallback
@@ -68,7 +68,7 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHold
 
             itemView.setOnClickListener {
                 itemView.findNavController().navigate(
-                    RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                    FavoritesFragmentDirections.actionFavoritesFragmentToDetailsActivity(result)
                 )
             }
         }
