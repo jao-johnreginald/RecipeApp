@@ -17,5 +17,6 @@
     <color name="green">#00C980</color>
 
     <color name="colorPrimaryLight">#206200EA</color>
+    <color name="colorPrimaryLighter">#106200EA</color>
     <color name="light_black">#80000000</color>
 </resources>
