@@ -6,17 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.text.HtmlCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import coil.load
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentOverviewBinding
 import com.johnreg.recipeapp.models.Result
-import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.getParcelableExtra
-import org.jsoup.Jsoup
+import com.johnreg.recipeapp.utils.loadFrom
+import com.johnreg.recipeapp.utils.parseHtml
 
 class OverviewFragment : Fragment() {
 
@@ -38,17 +36,11 @@ class OverviewFragment : Fragment() {
         val resultBundle = requireArguments().getParcelableExtra(RESULT_BUNDLE_KEY) as? Result
 
         resultBundle?.let { result ->
-            binding.ivMain.load(result.imageUrl) {
-                crossfade(DURATION_MILLIS)
-                error(R.drawable.ic_error)
-            }
-
+            binding.ivMain.loadFrom(result.imageUrl)
+            binding.tvTitle.text = result.title
+            binding.tvDescription.text = result.description.parseHtml()
             binding.tvLikes.text = result.totalLikes.toString()
             binding.tvTime.text = result.totalMinutes.toString()
-            binding.tvTitle.text = result.title
-            binding.tvDescription.text = HtmlCompat.fromHtml(
-                Jsoup.parse(result.description).html(), HtmlCompat.FROM_HTML_MODE_LEGACY
-            )
 
             setColor(result.isVegetarian, binding.ivVegetarian, binding.tvVegetarian)
             setColor(result.isGlutenFree, binding.ivGlutenFree, binding.tvGlutenFree)
@@ -61,8 +53,8 @@ class OverviewFragment : Fragment() {
 
     private fun setColor(isBooleanTrue: Boolean, imageView: ImageView, textView: TextView) {
         if (isBooleanTrue) {
-            imageView.setColorFilter(getColor(requireContext(), R.color.green))
-            textView.setTextColor(getColor(requireContext(), R.color.green))
+            imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
         }
     }
 

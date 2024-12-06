@@ -3,12 +3,10 @@ package com.johnreg.recipeapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemIngredientBinding
 import com.johnreg.recipeapp.models.Ingredient
 import com.johnreg.recipeapp.utils.Constants.BASE_IMAGE_URL
-import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
+import com.johnreg.recipeapp.utils.loadFrom
 
 class IngredientsAdapter(
     private val ingredients: List<Ingredient>
@@ -30,10 +28,7 @@ class IngredientsAdapter(
         private val binding: ItemIngredientBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(ingredient: Ingredient) {
-            binding.ivIngredient.load(BASE_IMAGE_URL + ingredient.imageUrl) {
-                crossfade(DURATION_MILLIS)
-                error(R.drawable.ic_error)
-            }
+            binding.ivIngredient.loadFrom(BASE_IMAGE_URL + ingredient.imageUrl)
 
             binding.tvName.text = ingredient.name.replaceFirstChar { char ->
                 if (char.isLowerCase()) char.titlecase() else char.toString()
