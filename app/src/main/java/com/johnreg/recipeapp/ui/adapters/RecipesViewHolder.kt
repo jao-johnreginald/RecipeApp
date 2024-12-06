@@ -46,7 +46,7 @@ class RecipesViewHolder(
     }
 
     fun setCardColors(@ColorRes backgroundColor: Int, @ColorRes strokeColor: Int) {
-        binding.cvRow.setBackgroundColor(ContextCompat.getColor(itemView.context, backgroundColor))
+        binding.clRow.setBackgroundColor(ContextCompat.getColor(itemView.context, backgroundColor))
         binding.cvRow.strokeColor = ContextCompat.getColor(itemView.context, strokeColor)
     }
 
