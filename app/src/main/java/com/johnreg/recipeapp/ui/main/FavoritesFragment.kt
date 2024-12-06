@@ -15,24 +15,34 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoritesFragment : Fragment() {
 
-    private lateinit var binding: FragmentFavoritesBinding
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding get() = _binding!!
 
-    private val favoritesAdapter by lazy { FavoritesAdapter() }
+    private var _favoritesAdapter: FavoritesAdapter? = null
+    private val favoritesAdapter get() = _favoritesAdapter!!
 
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _favoritesAdapter = FavoritesAdapter(requireActivity(), mainViewModel)
 
         setRecyclerView()
         observeFavorites()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        favoritesAdapter.finishActionMode()
+        _binding = null
+        _favoritesAdapter = null
     }
 
     private fun setRecyclerView() {
