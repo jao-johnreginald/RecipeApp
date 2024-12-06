@@ -15,7 +15,6 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.ui.main.FavoritesFragmentDirections
 import com.johnreg.recipeapp.utils.DiffUtilCallback
-import com.johnreg.recipeapp.utils.setCardColors
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 
 class FavoritesAdapter(
@@ -77,16 +76,14 @@ class FavoritesAdapter(
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        if (mode != null) {
-            actionMode = mode
-            mode.menuInflater.inflate(R.menu.favorites_contextual_menu, menu)
-        }
+        actionMode = mode!!
+        actionMode.menuInflater.inflate(R.menu.favorites_contextual_menu, menu)
         setStatusBarColor(R.color.darker)
         return true
     }
 
     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return true
+        return false
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
@@ -98,8 +95,6 @@ class FavoritesAdapter(
                     rootView, "${selectedItems.size} Recipe/s Removed.", Snackbar.LENGTH_SHORT
                 ).setAction("Okay") {}.show()
 
-                selectedItems.clear()
-                isActionModeStarted = false
                 actionMode.finish()
                 true
             }
@@ -136,19 +131,15 @@ class FavoritesAdapter(
         }
 
         when (selectedItems.size) {
-            0 -> {
-                actionMode.finish()
-                isActionModeStarted = false
-            }
-
-            1 -> actionMode.title = "${selectedItems.size} item selected"
+            0 -> actionMode.finish()
+            1 -> actionMode.title = "1 item selected"
             else -> actionMode.title = "${selectedItems.size} items selected"
         }
     }
 
-    private fun setStatusBarColor(@ColorRes colorRes: Int) {
+    private fun setStatusBarColor(@ColorRes statusBarColor: Int) {
         @Suppress("DEPRECATION")
-        fragmentActivity.window.statusBarColor = fragmentActivity.getColor(colorRes)
+        fragmentActivity.window.statusBarColor = fragmentActivity.getColor(statusBarColor)
     }
 
 }

@@ -2,6 +2,7 @@ package com.johnreg.recipeapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,9 @@ import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import org.jsoup.Jsoup
 
-class RecipesViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+class RecipesViewHolder(
+    private val binding: ItemRecipeBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(result: Result) {
         // Use the coil image loading library to load this image from the url into our ImageView
@@ -40,6 +43,11 @@ class RecipesViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolde
             binding.ivLeaf.setColorFilter(ContextCompat.getColor(itemView.context, R.color.green))
             binding.tvLeaf.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
         }
+    }
+
+    fun setCardColors(@ColorRes backgroundColor: Int, @ColorRes strokeColor: Int) {
+        binding.cvRow.setBackgroundColor(ContextCompat.getColor(itemView.context, backgroundColor))
+        binding.cvRow.strokeColor = ContextCompat.getColor(itemView.context, strokeColor)
     }
 
     companion object {
