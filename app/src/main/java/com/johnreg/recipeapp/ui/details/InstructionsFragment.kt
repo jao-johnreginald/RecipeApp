@@ -32,7 +32,7 @@ class InstructionsFragment : Fragment() {
 
         resultBundle?.let { result ->
             binding.wvInstructions.apply {
-                webViewClient = object : WebViewClient() {}
+                webViewClient = WebViewClient()
                 loadUrl(result.sourceUrl)
             }
         }
