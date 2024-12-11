@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Ingredient(
-    @SerializedName("image") val imageUrl: String,
+    @SerializedName("image") val imageUrl: String?,
     @SerializedName("name") val name: String,
     @SerializedName("amount") val amount: Double,
     @SerializedName("unit") val unit: String,
