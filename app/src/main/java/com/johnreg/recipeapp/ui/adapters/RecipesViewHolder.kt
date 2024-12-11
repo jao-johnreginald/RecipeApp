@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
 import com.johnreg.recipeapp.models.Result
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.loadFrom
-import com.johnreg.recipeapp.utils.parseHtml
+import org.jsoup.Jsoup
 
 class RecipesViewHolder(
     private val binding: ItemRecipeBinding
@@ -19,7 +20,7 @@ class RecipesViewHolder(
     fun bind(result: Result) {
         binding.ivRecipe.loadFrom(result.imageUrl)
         binding.tvTitle.text = result.title
-        binding.tvDescription.text = result.description.parseHtml()
+        binding.tvDescription.text = Jsoup.parse(result.description).html().parseAsHtml()
 
         binding.tvHeart.text = if (result.totalLikes > TOTAL_MAX) TOTAL_MAX.toString()
         else result.totalLikes.toString()

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.text.parseAsHtml
 import androidx.fragment.app.Fragment
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentOverviewBinding
@@ -14,7 +15,7 @@ import com.johnreg.recipeapp.models.Result
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.getParcelableExtra
 import com.johnreg.recipeapp.utils.loadFrom
-import com.johnreg.recipeapp.utils.parseHtml
+import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
 
@@ -38,7 +39,7 @@ class OverviewFragment : Fragment() {
         resultBundle?.let { result ->
             binding.ivMain.loadFrom(result.imageUrl)
             binding.tvTitle.text = result.title
-            binding.tvDescription.text = result.description.parseHtml()
+            binding.tvDescription.text = Jsoup.parse(result.description).html().parseAsHtml()
             binding.tvLikes.text = result.totalLikes.toString()
             binding.tvTime.text = result.totalMinutes.toString()
 

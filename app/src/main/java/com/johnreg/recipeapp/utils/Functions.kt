@@ -3,19 +3,15 @@ package com.johnreg.recipeapp.utils
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.Spanned
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import coil.load
-import coil.request.Disposable
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
-import org.jsoup.Jsoup
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
     observe(lifecycleOwner, object : Observer<T> {
@@ -35,10 +31,6 @@ fun Fragment.showToast(text: String) {
     Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 }
 
-fun String.parseHtml(): Spanned {
-    return HtmlCompat.fromHtml(Jsoup.parse(this).html(), HtmlCompat.FROM_HTML_MODE_COMPACT)
-}
-
 /**
  * Use the coil image loading library to load this image from the url into our ImageView.
  *
@@ -47,9 +39,7 @@ fun String.parseHtml(): Spanned {
  *
  * The images that were not cached correctly will display this error icon.
  */
-fun ImageView.loadFrom(imageUrl: String): Disposable {
-    return load(imageUrl) {
-        crossfade(DURATION_MILLIS)
-        error(R.drawable.ic_error)
-    }
+fun ImageView.loadFrom(imageUrl: String) = load(imageUrl) {
+    crossfade(DURATION_MILLIS)
+    error(R.drawable.ic_error)
 }
