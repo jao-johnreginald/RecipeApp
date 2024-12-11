@@ -77,7 +77,7 @@ class RecipesFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
-        }, viewLifecycleOwner, Lifecycle.State.CREATED)
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
     }
 
     private fun setSearchView(menu: Menu) {
