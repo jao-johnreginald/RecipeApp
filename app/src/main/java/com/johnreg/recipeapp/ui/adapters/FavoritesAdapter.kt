@@ -117,6 +117,14 @@ class FavoritesAdapter(
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
+    /**
+     * Closes our contextual action mode when we leave our FavoritesFragment.
+     *
+     * This function will check if our contextual action mode is initialized or if it is visible.
+     * And then if it is visible, then we're going to close that.
+     *
+     * Whenever we navigate away from our FavoritesFragment, we want to close that contextual action mode.
+     */
     fun finishActionMode() {
         if (this::actionMode.isInitialized) actionMode.finish()
     }
