@@ -1,5 +1,6 @@
 package com.johnreg.recipeapp.data.remote
 
+import com.johnreg.recipeapp.models.Joke
 import com.johnreg.recipeapp.models.Recipe
 import retrofit2.Response
 import javax.inject.Inject
@@ -20,5 +21,9 @@ class RemoteDataSource @Inject constructor(
     suspend fun searchRecipe(
         searchQueryMap: Map<String, String>
     ): Response<Recipe> = recipeApi.searchRecipe(searchQueryMap)
+
+    suspend fun getJoke(
+        apiKey: String
+    ): Response<Joke> = recipeApi.getJoke(apiKey)
 
 }
