@@ -1,8 +1,10 @@
 package com.johnreg.recipeapp.data.remote
 
+import com.johnreg.recipeapp.models.Joke
 import com.johnreg.recipeapp.models.Recipe
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
 interface RecipeApi {
@@ -22,5 +24,10 @@ interface RecipeApi {
     suspend fun searchRecipe(
         @QueryMap searchQueryMap: Map<String, String>
     ): Response<Recipe>
+
+    @GET("/food/jokes/random")
+    suspend fun getJoke(
+        @Query("apiKey") apiKey: String
+    ): Response<Joke>
 
 }
