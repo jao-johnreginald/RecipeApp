@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
+import com.johnreg.recipeapp.models.Joke
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.utils.NetworkCallback
 import com.johnreg.recipeapp.utils.NetworkResult
@@ -50,9 +51,11 @@ class MainViewModel @Inject constructor(
     /** REMOTE API */
     private val _recipeResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
     private val _searchResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
+    private val _jokeResponse: MutableLiveData<NetworkResult<Joke>> = MutableLiveData()
 
     val recipeResponse: LiveData<NetworkResult<Recipe>> get() = _recipeResponse
     val searchResponse: LiveData<NetworkResult<Recipe>> get() = _searchResponse
+    val jokeResponse: LiveData<NetworkResult<Joke>> get() = _jokeResponse
 
     fun getRecipe(queryMap: Map<String, String>) = viewModelScope.launch {
         // Set the value of the MutableLiveData
@@ -84,6 +87,31 @@ class MainViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("RecipesFragment", e.localizedMessage, e)
                 NetworkResult.Error("Recipes Not Found.\n${e.localizedMessage?.uppercase()}")
+            }
+        } else {
+            NetworkResult.Error("No Internet Connection.")
+        }
+    }
+
+    fun getJoke(apiKey: String) = viewModelScope.launch {
+        _jokeResponse.value = NetworkResult.Loading()
+        _jokeResponse.value = if (networkCallback.isNetworkAvailable().first()) {
+            try {
+                val response = repository.remote.getJoke(apiKey)
+                Log.d("JokesFragment", "Request URL: ${response.raw().request.url}")
+                val joke = response.body()
+                when {
+                    response.message().contains("timeout") -> NetworkResult.Error("Timeout.")
+                    response.code() == 402 -> NetworkResult.Error("API Key Limited.")
+                    joke?.text!!.isEmpty() -> NetworkResult.Error("Joke Not Found.")
+
+                    response.isSuccessful -> NetworkResult.Success(joke)
+
+                    else -> NetworkResult.Error(response.message())
+                }
+            } catch (e: Exception) {
+                Log.e("JokesFragment", e.localizedMessage, e)
+                NetworkResult.Error("Joke Not Found.\n${e.localizedMessage?.uppercase()}")
             }
         } else {
             NetworkResult.Error("No Internet Connection.")
