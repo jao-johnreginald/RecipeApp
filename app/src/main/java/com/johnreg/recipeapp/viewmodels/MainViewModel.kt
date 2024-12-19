@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
+import com.johnreg.recipeapp.data.entities.JokeEntity
 import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.models.Joke
@@ -31,6 +32,7 @@ class MainViewModel @Inject constructor(
     /** LOCAL DATABASE */
     val recipes: LiveData<List<RecipeEntity>> = repository.local.getRecipes().asLiveData()
     val favorites: LiveData<List<FavoriteEntity>> = repository.local.getFavorites().asLiveData()
+    val jokes: LiveData<List<JokeEntity>> = repository.local.getJokes().asLiveData()
 
     private fun insertRecipe(recipeEntity: RecipeEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.local.insertRecipe(recipeEntity)
@@ -38,6 +40,10 @@ class MainViewModel @Inject constructor(
 
     fun insertFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.local.insertFavorite(favoriteEntity)
+    }
+
+    private fun insertJoke(jokeEntity: JokeEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertJoke(jokeEntity)
     }
 
     fun deleteFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch(Dispatchers.IO) {
@@ -115,6 +121,10 @@ class MainViewModel @Inject constructor(
             }
         } else {
             NetworkResult.Error("No Internet Connection.")
+        }
+
+        _jokeResponse.value!!.data?.let { joke ->
+            insertJoke(JokeEntity(joke))
         }
     }
 
