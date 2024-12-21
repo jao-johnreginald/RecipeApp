@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/jokes_background_light"
+    android:padding="24dp"
     tools:context=".ui.main.JokesFragment">
 
     <ProgressBar
@@ -21,8 +22,6 @@
         android:id="@+id/cv_joke"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
         app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,21 +31,27 @@
         app:strokeColor="@color/lightMediumGray"
         app:strokeWidth="1dp">
 
-        <TextView
-            android:id="@+id/tv_joke"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:fontFamily="@font/courgette"
-            android:textColor="@color/dark"
-            android:textSize="20sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_joke"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/courgette"
+                android:padding="16dp"
+                android:textColor="@color/darker"
+                android:textSize="20sp" />
+        </ScrollView>
     </com.google.android.material.card.MaterialCardView>
 
     <ImageView
         android:id="@+id/iv_error"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:alpha="0.2"
+        android:alpha="0.3"
+        android:contentDescription="@string/error_image"
         android:src="@drawable/ic_sentiment_very_dissatisfied"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:alpha="0.5"
+        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="invisible"
