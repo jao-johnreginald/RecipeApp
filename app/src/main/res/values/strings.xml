@@ -44,6 +44,7 @@
     <string name="no_recipes_saved">No Recipes Saved.</string>
     <string name="delete_favorites">Delete Favorites</string>
     <string name="delete_all">Delete All</string>
+    <string name="share">Share</string>
 
     <string name="open_bottom_sheet">Open bottom sheet</string>
     <string name="error_image">Error image</string>
