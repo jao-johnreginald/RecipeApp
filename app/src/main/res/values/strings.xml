@@ -46,6 +46,7 @@
     <string name="delete_all">Delete All</string>
     <string name="share">Share</string>
 
+    <string name="refresh">Refresh</string>
     <string name="open_bottom_sheet">Open bottom sheet</string>
     <string name="error_image">Error image</string>
     <string name="load_cache">Load Cache?</string>
