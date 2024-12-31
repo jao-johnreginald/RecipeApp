@@ -17,6 +17,7 @@ import com.johnreg.recipeapp.databinding.FragmentJokesBinding
 import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
+import com.johnreg.recipeapp.utils.setErrorTextAndListener
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,7 @@ class JokesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setMenu()
         checkDatabase()
     }
@@ -86,7 +88,12 @@ class JokesFragment : Fragment() {
                     binding.ivError.visibility = View.VISIBLE
                     binding.tvError.visibility = View.VISIBLE
 
-                    binding.tvError.text = response.message
+                    binding.tvError.setErrorTextAndListener(response.message) { view ->
+                        mainViewModel.jokes.observeOnce(viewLifecycleOwner) { database ->
+                            if (database.isEmpty()) view.text = getString(R.string.cache_is_empty)
+                            else setJokeText(database.first().joke.text)
+                        }
+                    }
                 }
 
                 is NetworkResult.Loading -> {
@@ -106,6 +113,7 @@ class JokesFragment : Fragment() {
         binding.cvJoke.visibility = View.VISIBLE
         binding.ivError.visibility = View.INVISIBLE
         binding.tvError.visibility = View.INVISIBLE
+
         binding.tvJoke.text = text
     }
 

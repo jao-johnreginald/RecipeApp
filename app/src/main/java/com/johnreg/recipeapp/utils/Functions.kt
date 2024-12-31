@@ -3,8 +3,14 @@ package com.johnreg.recipeapp.utils
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.method.LinkMovementMethodCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -29,6 +35,33 @@ inline fun <reified T : Parcelable> Bundle.getParcelableExtra(key: String): T? =
 
 fun Fragment.showToast(text: String) {
     Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+}
+
+fun TextView.setErrorTextAndListener(errorText: String?, listener: (view: TextView) -> Unit) {
+    val loadCacheText = resources.getString(R.string.load_cache)
+
+    val fullText = "$errorText\n$loadCacheText"
+    val spannableString = SpannableString(fullText)
+
+    // Handle click on "Load Cache?"
+    val clickableSpan = object : ClickableSpan() {
+        override fun onClick(view: View) = listener(view as TextView)
+    }
+
+    val startIndex = fullText.indexOf(loadCacheText)
+    val endIndex = startIndex + loadCacheText.length
+
+    // Apply formatting to "Load Cache?"
+    spannableString.setSpan(
+        clickableSpan,
+        startIndex,
+        endIndex,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+
+    // Set the formatted text to the TextView and make the links clickable
+    text = spannableString
+    movementMethod = LinkMovementMethodCompat.getInstance()
 }
 
 /**

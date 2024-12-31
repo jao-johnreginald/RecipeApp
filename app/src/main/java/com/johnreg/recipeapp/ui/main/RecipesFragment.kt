@@ -1,10 +1,6 @@
 package com.johnreg.recipeapp.ui.main
 
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -22,12 +18,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
-import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
+import com.johnreg.recipeapp.utils.setErrorTextAndListener
 import com.johnreg.recipeapp.utils.showToast
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
@@ -61,7 +57,7 @@ class RecipesFragment : Fragment() {
         setMenu()
         showNetworkToast()
         setRvAndFab()
-        checkDatabaseAndArgs()
+        checkDatabase()
     }
 
     override fun onPause() {
@@ -77,28 +73,28 @@ class RecipesFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
-        }, viewLifecycleOwner, Lifecycle.State.STARTED)
-    }
 
-    private fun setSearchView(menu: Menu) {
-        val searchView = menu.findItem(R.id.menu_search).actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) searchApiData(query)
-                return true
+            private fun setSearchView(menu: Menu) {
+                val searchView = menu.findItem(R.id.menu_search).actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+
+                searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        if (query != null) searchApiData(query)
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean = false
+
+                    private fun searchApiData(query: String) {
+                        mainViewModel.searchResponse.observe(viewLifecycleOwner) { response ->
+                            handleRecipeResponse(response)
+                        }
+                        mainViewModel.searchRecipe(recipeViewModel.searchQueryMap(query))
+                    }
+                })
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean = false
-        })
-    }
-
-    private fun searchApiData(query: String) {
-        mainViewModel.searchResponse.observe(viewLifecycleOwner) { response ->
-            handleRecipeResponse(response)
-        }
-
-        mainViewModel.searchRecipe(recipeViewModel.searchQueryMap(query))
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
     }
 
     private fun showNetworkToast() {
@@ -130,21 +126,16 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    private fun checkDatabaseAndArgs() {
+    private fun checkDatabase() {
         lifecycleScope.launch {
             mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                if (database.isEmpty() || args.isApplyButtonClicked) {
-                    requestApiData()
-                } else {
-                    Log.d("RecipesFragment", "else block called")
-                    loadDataFromCache(database)
-                }
+                if (database.isEmpty() || args.isApplyButtonClicked) requestApiData()
+                else setRecipesAdapter(database.first().recipe)
             }
         }
     }
 
     private fun requestApiData() {
-        Log.d("RecipesFragment", "requestApiData() called")
         mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
             handleRecipeResponse(response)
         }
@@ -156,28 +147,9 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    private fun loadDataFromCache(database: List<RecipeEntity>) {
-        binding.shimmerFrameLayout.visibility = View.INVISIBLE
-        binding.rvRecipes.visibility = View.VISIBLE
-        binding.ivError.visibility = View.INVISIBLE
-        binding.tvError.visibility = View.INVISIBLE
-
-        val recipe = database.first().recipe
-        recipesAdapter.setResults(recipe)
-    }
-
     private fun handleRecipeResponse(response: NetworkResult<Recipe>) {
         when (response) {
-            is NetworkResult.Success -> {
-                binding.shimmerFrameLayout.visibility = View.INVISIBLE
-                binding.rvRecipes.visibility = View.VISIBLE
-                binding.ivError.visibility = View.INVISIBLE
-                binding.tvError.visibility = View.INVISIBLE
-
-                response.data?.let { recipe ->
-                    recipesAdapter.setResults(recipe)
-                }
-            }
+            is NetworkResult.Success -> setRecipesAdapter(response.data)
 
             is NetworkResult.Error -> {
                 binding.shimmerFrameLayout.visibility = View.INVISIBLE
@@ -185,7 +157,12 @@ class RecipesFragment : Fragment() {
                 binding.ivError.visibility = View.VISIBLE
                 binding.tvError.visibility = View.VISIBLE
 
-                setErrorTextAndListener(response.message)
+                binding.tvError.setErrorTextAndListener(response.message) { view ->
+                    mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
+                        if (database.isEmpty()) view.text = getString(R.string.cache_is_empty)
+                        else setRecipesAdapter(database.first().recipe)
+                    }
+                }
             }
 
             is NetworkResult.Loading -> {
@@ -197,37 +174,13 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    private fun setErrorTextAndListener(message: String?) {
-        val fullMessage = "$message\n${getString(R.string.load_cache)}"
-        val spannableString = SpannableString(fullMessage)
+    private fun setRecipesAdapter(recipe: Recipe?) {
+        binding.shimmerFrameLayout.visibility = View.INVISIBLE
+        binding.rvRecipes.visibility = View.VISIBLE
+        binding.ivError.visibility = View.INVISIBLE
+        binding.tvError.visibility = View.INVISIBLE
 
-        // Handle click on "Load Cache?"
-        val clickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                    if (database.isEmpty()) {
-                        binding.tvError.text = getString(R.string.cache_is_empty)
-                    } else loadDataFromCache(database)
-                }
-            }
-        }
-
-        val startIndex = fullMessage.indexOf(getString(R.string.load_cache))
-        val endIndex = startIndex + getString(R.string.load_cache).length
-
-        // Apply formatting to "Load Cache?"
-        spannableString.setSpan(
-            clickableSpan,
-            startIndex,
-            endIndex,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // Set the formatted text to the TextView and make the links clickable
-        binding.tvError.apply {
-            text = spannableString
-            movementMethod = LinkMovementMethod.getInstance()
-        }
+        if (recipe != null) recipesAdapter.setResults(recipe)
     }
 
 }
