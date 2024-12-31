@@ -1,5 +1,6 @@
 package com.johnreg.recipeapp.utils
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -35,6 +36,10 @@ inline fun <reified T : Parcelable> Bundle.getParcelableExtra(key: String): T? =
 
 fun Fragment.showToast(text: String) {
     Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.showToast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
 fun TextView.setErrorTextAndListener(errorText: String?, listener: (view: TextView) -> Unit) {

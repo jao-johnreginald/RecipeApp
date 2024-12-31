@@ -17,6 +17,7 @@ import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.databinding.ActivityDetailsBinding
 import com.johnreg.recipeapp.ui.adapters.PagerAdapter
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
+import com.johnreg.recipeapp.utils.showToast
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -87,6 +88,7 @@ class DetailsActivity : AppCompatActivity() {
                 isFavorite = false
             } catch (e: Exception) {
                 Log.e("DetailsActivity", e.localizedMessage, e)
+                showToast("Error: ${e.localizedMessage}")
             }
         }
     }

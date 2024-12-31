@@ -46,6 +46,13 @@ class FavoritesFragment : Fragment() {
         observeFavorites()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        favoritesAdapter.finishActionMode()
+        _binding = null
+        _favoritesAdapter = null
+    }
+
     private fun setMenu() {
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -68,13 +75,6 @@ class FavoritesFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        favoritesAdapter.finishActionMode()
-        _binding = null
-        _favoritesAdapter = null
     }
 
     private fun setRecyclerView() {

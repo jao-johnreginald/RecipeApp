@@ -15,6 +15,7 @@ import com.johnreg.recipeapp.utils.Constants.DEFAULT_CHIP_ID
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_DIET_TYPE
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_MEAL_TYPE
 import com.johnreg.recipeapp.utils.observeOnce
+import com.johnreg.recipeapp.utils.showToast
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,6 +66,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
                 chip.isChecked = true
             } catch (e: Exception) {
                 Log.e("RecipesBottomSheet", e.localizedMessage, e)
+                requireContext().showToast("Error: ${e.localizedMessage}")
             }
         }
     }
