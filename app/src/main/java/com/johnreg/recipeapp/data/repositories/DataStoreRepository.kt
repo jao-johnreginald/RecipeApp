@@ -65,11 +65,4 @@ class DataStoreRepository @Inject constructor(
             }
     }
 
-    data class Types(
-        val mealTypeName: String,
-        val mealTypeId: Int,
-        val dietTypeName: String,
-        val dietTypeId: Int
-    )
-
 }
