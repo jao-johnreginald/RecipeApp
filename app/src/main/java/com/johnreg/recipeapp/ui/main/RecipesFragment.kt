@@ -21,6 +21,15 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.models.Recipe
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
+import com.johnreg.recipeapp.utils.Constants.API_KEY
+import com.johnreg.recipeapp.utils.Constants.DEFAULT_RESULT_COUNT
+import com.johnreg.recipeapp.utils.Constants.QUERY_ADD_RECIPE_INFORMATION
+import com.johnreg.recipeapp.utils.Constants.QUERY_API_KEY
+import com.johnreg.recipeapp.utils.Constants.QUERY_DIET
+import com.johnreg.recipeapp.utils.Constants.QUERY_FILL_INGREDIENTS
+import com.johnreg.recipeapp.utils.Constants.QUERY_NUMBER
+import com.johnreg.recipeapp.utils.Constants.QUERY_SEARCH
+import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
@@ -86,11 +95,20 @@ class RecipesFragment : Fragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean = false
 
-                    private fun searchApiData(query: String) {
+                    private fun searchApiData(searchQuery: String) {
                         mainViewModel.searchResponse.observe(viewLifecycleOwner) { response ->
                             handleRecipeResponse(response)
                         }
-                        mainViewModel.searchRecipe(recipeViewModel.searchQueryMap(query))
+
+                        val searchQueryMap = hashMapOf(
+                            QUERY_SEARCH to searchQuery,
+                            QUERY_NUMBER to DEFAULT_RESULT_COUNT,
+                            QUERY_API_KEY to API_KEY,
+                            QUERY_ADD_RECIPE_INFORMATION to "true",
+                            QUERY_FILL_INGREDIENTS to "true"
+                        )
+
+                        mainViewModel.searchRecipe(searchQueryMap)
                     }
                 })
             }
@@ -142,7 +160,15 @@ class RecipesFragment : Fragment() {
 
         recipeViewModel.types.observe(viewLifecycleOwner) { types ->
             Log.d("RecipesFragment", types.toString())
-            val queryMap = recipeViewModel.getQueryMap(types.mealTypeName, types.dietTypeName)
+            val queryMap = hashMapOf(
+                QUERY_NUMBER to DEFAULT_RESULT_COUNT,
+                QUERY_API_KEY to API_KEY,
+                QUERY_TYPE to types.mealTypeName,
+                QUERY_DIET to types.dietTypeName,
+                QUERY_ADD_RECIPE_INFORMATION to "true",
+                QUERY_FILL_INGREDIENTS to "true"
+            )
+
             mainViewModel.getRecipe(queryMap)
         }
     }

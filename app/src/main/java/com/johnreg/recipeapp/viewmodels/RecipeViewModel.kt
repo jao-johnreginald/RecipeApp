@@ -4,15 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.repositories.DataStoreRepository
-import com.johnreg.recipeapp.utils.Constants.API_KEY
-import com.johnreg.recipeapp.utils.Constants.DEFAULT_RESULT_COUNT
-import com.johnreg.recipeapp.utils.Constants.QUERY_ADD_RECIPE_INFORMATION
-import com.johnreg.recipeapp.utils.Constants.QUERY_API_KEY
-import com.johnreg.recipeapp.utils.Constants.QUERY_DIET
-import com.johnreg.recipeapp.utils.Constants.QUERY_FILL_INGREDIENTS
-import com.johnreg.recipeapp.utils.Constants.QUERY_NUMBER
-import com.johnreg.recipeapp.utils.Constants.QUERY_SEARCH
-import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,26 +25,5 @@ class RecipeViewModel @Inject constructor(
     ) = viewModelScope.launch(Dispatchers.IO) {
         dataStoreRepository.setTypesPreferences(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
     }
-
-    fun getQueryMap(
-        mealType: String, dietType: String
-    ): HashMap<String, String> = hashMapOf(
-        QUERY_NUMBER to DEFAULT_RESULT_COUNT,
-        QUERY_API_KEY to API_KEY,
-        QUERY_TYPE to mealType,
-        QUERY_DIET to dietType,
-        QUERY_ADD_RECIPE_INFORMATION to "true",
-        QUERY_FILL_INGREDIENTS to "true"
-    )
-
-    fun searchQueryMap(
-        searchQuery: String
-    ): HashMap<String, String> = hashMapOf(
-        QUERY_SEARCH to searchQuery,
-        QUERY_NUMBER to DEFAULT_RESULT_COUNT,
-        QUERY_API_KEY to API_KEY,
-        QUERY_ADD_RECIPE_INFORMATION to "true",
-        QUERY_FILL_INGREDIENTS to "true"
-    )
 
 }
