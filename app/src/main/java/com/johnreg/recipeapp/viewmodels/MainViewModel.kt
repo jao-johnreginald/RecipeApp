@@ -1,10 +1,9 @@
 package com.johnreg.recipeapp.viewmodels
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
@@ -25,9 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: MainRepository,
-    private val networkCallback: NetworkCallback,
-    application: Application
-) : AndroidViewModel(application) {
+    private val networkCallback: NetworkCallback
+) : ViewModel() {
 
     /** LOCAL DATABASE */
     val recipes: LiveData<List<RecipeEntity>> = repository.local.getRecipes().asLiveData()

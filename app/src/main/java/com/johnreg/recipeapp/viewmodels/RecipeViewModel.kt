@@ -1,7 +1,6 @@
 package com.johnreg.recipeapp.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.repositories.DataStoreRepository
@@ -23,9 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    networkCallback: NetworkCallback,
-    application: Application
-) : AndroidViewModel(application) {
+    networkCallback: NetworkCallback
+) : ViewModel() {
 
     val isNetworkAvailable = networkCallback.isNetworkAvailable().asLiveData()
 
