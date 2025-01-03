@@ -18,12 +18,12 @@ class RecipeViewModel @Inject constructor(
 
     val isNetworkAvailable = networkCallback.isNetworkAvailable().asLiveData()
 
-    val types = dataStoreRepository.getTypesPreferences().asLiveData()
+    val types = dataStoreRepository.getTypes().asLiveData()
 
-    fun saveMealAndDietType(
+    fun setTypes(
         mealTypeName: String, mealTypeId: Int, dietTypeName: String, dietTypeId: Int
     ) = viewModelScope.launch(Dispatchers.IO) {
-        dataStoreRepository.setTypesPreferences(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
+        dataStoreRepository.setTypes(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
     }
 
 }

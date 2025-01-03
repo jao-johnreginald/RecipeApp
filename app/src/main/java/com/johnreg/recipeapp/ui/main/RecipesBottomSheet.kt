@@ -91,7 +91,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnApply.setOnClickListener {
-            recipeViewModel.saveMealAndDietType(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
+            recipeViewModel.setTypes(mealTypeName, mealTypeId, dietTypeName, dietTypeId)
 
             findNavController().navigate(
                 RecipesBottomSheetDirections.actionRecipesBottomSheetToRecipesFragment(true)

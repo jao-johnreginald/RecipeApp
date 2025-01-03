@@ -35,7 +35,7 @@ class DataStoreRepository @Inject constructor(
     }
 
     // Save our selected bottom sheet chips' values inside our DataStore Preferences using those Keys
-    suspend fun setTypesPreferences(
+    suspend fun setTypes(
         mealTypeName: String,
         mealTypeId: Int,
         dietTypeName: String,
@@ -49,7 +49,7 @@ class DataStoreRepository @Inject constructor(
         }
     }
 
-    fun getTypesPreferences(): Flow<Types> {
+    fun getTypes(): Flow<Types> {
         return context.dataStore.data
             // Catch an exception if there is one, if it is an IOException, emit
             // an emptyPreferences from this Flow, else, just re-throw the exception
