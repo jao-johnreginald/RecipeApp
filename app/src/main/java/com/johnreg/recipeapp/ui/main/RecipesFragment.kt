@@ -33,7 +33,6 @@ import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
-import com.johnreg.recipeapp.utils.showToast
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,8 +50,6 @@ class RecipesFragment : Fragment() {
 
     private val args: RecipesFragmentArgs by navArgs()
 
-    private var isNetworkObserved = false
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -64,14 +61,8 @@ class RecipesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setMenu()
-        showNetworkToast()
         setRvAndFab()
         checkDatabase()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        isNetworkObserved = false
     }
 
     private fun setMenu() {
@@ -115,16 +106,6 @@ class RecipesFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
     }
 
-    private fun showNetworkToast() {
-        recipeViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            if (isNetworkAvailable && isNetworkObserved) showToast("We're Back Online.")
-            if (!isNetworkAvailable) showToast("No Internet Connection.")
-
-            Log.d("NetworkCallback", "Available: $isNetworkAvailable | Observe: $isNetworkObserved")
-            isNetworkObserved = true
-        }
-    }
-
     private fun setRvAndFab() {
         binding.rvRecipes.apply {
             adapter = recipesAdapter
@@ -132,15 +113,7 @@ class RecipesFragment : Fragment() {
         }
 
         binding.fabRecipes.setOnClickListener {
-            recipeViewModel.isNetworkAvailable.observeOnce(
-                viewLifecycleOwner
-            ) { isNetworkAvailable ->
-                if (isNetworkAvailable) {
-                    findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
-                } else {
-                    showToast("No Internet Connection.")
-                }
-            }
+            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
         }
     }
 
