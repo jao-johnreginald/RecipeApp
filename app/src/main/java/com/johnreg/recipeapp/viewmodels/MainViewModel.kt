@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
     private val networkCallback: NetworkCallback
 ) : ViewModel() {
 
-    /** LOCAL DATABASE */
+    /* LOCAL DATABASE */
     val recipes: LiveData<List<RecipeEntity>> = repository.local.getRecipes().asLiveData()
     val favorites: LiveData<List<FavoriteEntity>> = repository.local.getFavorites().asLiveData()
     val jokes: LiveData<List<JokeEntity>> = repository.local.getJokes().asLiveData()
@@ -52,7 +52,7 @@ class MainViewModel @Inject constructor(
         repository.local.deleteAllFavorites()
     }
 
-    /** REMOTE API */
+    /* REMOTE API */
     private val _recipeResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
     private val _searchResponse: MutableLiveData<NetworkResult<Recipe>> = MutableLiveData()
     private val _jokeResponse: MutableLiveData<NetworkResult<Joke>> = MutableLiveData()
