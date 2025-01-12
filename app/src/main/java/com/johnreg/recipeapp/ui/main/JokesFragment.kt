@@ -73,7 +73,7 @@ class JokesFragment : Fragment() {
 
     private fun checkDatabase() {
         mainViewModel.jokes.observeOnce(viewLifecycleOwner) { database ->
-            if (database.isEmpty()) requestApiData() else setJokeText(database.first().joke.text)
+            if (database.isNotEmpty()) setJokeText(database.first().joke.text) else requestApiData()
         }
     }
 
@@ -88,10 +88,10 @@ class JokesFragment : Fragment() {
                     binding.ivError.visibility = View.VISIBLE
                     binding.tvError.visibility = View.VISIBLE
 
-                    binding.tvError.setErrorTextAndListener(response.message) { view ->
+                    binding.tvError.setErrorTextAndListener(response.message) { textView ->
                         mainViewModel.jokes.observeOnce(viewLifecycleOwner) { database ->
-                            if (database.isEmpty()) view.text = getString(R.string.cache_is_empty)
-                            else setJokeText(database.first().joke.text)
+                            if (database.isNotEmpty()) setJokeText(database.first().joke.text)
+                            else textView.text = getString(R.string.cache_is_empty)
                         }
                     }
                 }

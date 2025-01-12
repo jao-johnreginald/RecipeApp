@@ -37,7 +37,7 @@ fun Context.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
-fun TextView.setErrorTextAndListener(errorText: String?, listener: (view: TextView) -> Unit) {
+fun TextView.setErrorTextAndListener(errorText: String?, listener: (textView: TextView) -> Unit) {
     val loadCacheText = resources.getString(R.string.load_cache)
 
     val fullText = "$errorText\n$loadCacheText"
@@ -45,7 +45,7 @@ fun TextView.setErrorTextAndListener(errorText: String?, listener: (view: TextVi
 
     // Handle click on "Load Cache?"
     val clickableSpan = object : ClickableSpan() {
-        override fun onClick(view: View) = listener(view as TextView)
+        override fun onClick(widget: View) = listener(widget as TextView)
     }
 
     val startIndex = fullText.indexOf(loadCacheText)
