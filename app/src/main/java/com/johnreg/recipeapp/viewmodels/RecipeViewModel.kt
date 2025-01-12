@@ -1,9 +1,11 @@
 package com.johnreg.recipeapp.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.repositories.DataStoreRepository
+import com.johnreg.recipeapp.data.repositories.Types
 import com.johnreg.recipeapp.utils.NetworkCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +18,9 @@ class RecipeViewModel @Inject constructor(
     networkCallback: NetworkCallback
 ) : ViewModel() {
 
-    val isNetworkAvailable = networkCallback.isNetworkAvailable().asLiveData()
+    val types: LiveData<Types> = dataStoreRepository.getTypes().asLiveData()
 
-    val types = dataStoreRepository.getTypes().asLiveData()
+    val isNetworkAvailable: LiveData<Boolean> = networkCallback.isNetworkAvailable().asLiveData()
 
     fun setTypes(
         mealTypeName: String, mealTypeId: Int, dietTypeName: String, dietTypeId: Int
