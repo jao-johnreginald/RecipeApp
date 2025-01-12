@@ -64,6 +64,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
             try {
                 val chip = chipGroup.findViewById<Chip>(chipId)
                 chip.isChecked = true
+                chipGroup.requestChildFocus(chip, chip)
             } catch (e: Exception) {
                 Log.e("RecipesBottomSheet", e.localizedMessage, e)
                 requireContext().showToast("Error: ${e.localizedMessage}")
