@@ -13,7 +13,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +35,6 @@ import com.johnreg.recipeapp.utils.setErrorTextAndListener
 import com.johnreg.recipeapp.viewmodels.MainViewModel
 import com.johnreg.recipeapp.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
@@ -49,6 +47,8 @@ class RecipesFragment : Fragment() {
     private val recipeViewModel: RecipeViewModel by viewModels()
 
     private val args: RecipesFragmentArgs by navArgs()
+
+    private var isDataRequested = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -118,10 +118,21 @@ class RecipesFragment : Fragment() {
     }
 
     private fun checkDatabase() {
-        lifecycleScope.launch {
-            mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                if (database.isEmpty() || args.isApplyButtonClicked) requestApiData()
-                else setRecipesAdapter(database.first().recipe)
+        mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
+            if (args.isApplyButtonClicked) {
+                if (!isDataRequested) {
+                    isDataRequested = true
+                    requestApiData()
+                    Log.d("RecipesFragment", "Apply button clicked! New API data requested!")
+                } else {
+                    if (database.isNotEmpty()) setRecipesAdapter(database.first().recipe)
+                    else requestApiData()
+                    Log.d("RecipesFragment", "Apply button clicked! Data already requested!")
+                }
+            } else {
+                if (database.isNotEmpty()) setRecipesAdapter(database.first().recipe)
+                else requestApiData()
+                Log.d("RecipesFragment", "Apply button not clicked!")
             }
         }
     }
@@ -132,7 +143,6 @@ class RecipesFragment : Fragment() {
         }
 
         recipeViewModel.types.observe(viewLifecycleOwner) { types ->
-            Log.d("RecipesFragment", types.toString())
             val queryMap = hashMapOf(
                 QUERY_NUMBER to DEFAULT_RESULT_COUNT,
                 QUERY_API_KEY to API_KEY,
@@ -143,6 +153,7 @@ class RecipesFragment : Fragment() {
             )
 
             mainViewModel.getRecipe(queryMap)
+            Log.d("RecipesFragment", types.toString())
         }
     }
 
@@ -156,10 +167,10 @@ class RecipesFragment : Fragment() {
                 binding.ivError.visibility = View.VISIBLE
                 binding.tvError.visibility = View.VISIBLE
 
-                binding.tvError.setErrorTextAndListener(response.message) { view ->
+                binding.tvError.setErrorTextAndListener(response.message) { textView ->
                     mainViewModel.recipes.observeOnce(viewLifecycleOwner) { database ->
-                        if (database.isEmpty()) view.text = getString(R.string.cache_is_empty)
-                        else setRecipesAdapter(database.first().recipe)
+                        if (database.isNotEmpty()) setRecipesAdapter(database.first().recipe)
+                        else textView.text = getString(R.string.cache_is_empty)
                     }
                 }
             }
