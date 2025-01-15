@@ -13,25 +13,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.johnreg.recipeapp.R
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import com.johnreg.recipeapp.databinding.FragmentJokesBinding
 import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
-import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class JokesFragment : Fragment() {
 
-    private lateinit var binding: FragmentJokesBinding
+    private var _binding: FragmentJokesBinding? = null
+    private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJokesBinding.inflate(inflater, container, false)
+        _binding = FragmentJokesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,6 +41,11 @@ class JokesFragment : Fragment() {
 
         setMenu()
         checkDatabase()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setMenu() {

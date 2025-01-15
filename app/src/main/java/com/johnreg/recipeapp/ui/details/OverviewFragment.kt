@@ -10,8 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.parseAsHtml
 import androidx.fragment.app.Fragment
 import com.johnreg.recipeapp.R
-import com.johnreg.recipeapp.databinding.FragmentOverviewBinding
 import com.johnreg.recipeapp.data.models.Result
+import com.johnreg.recipeapp.databinding.FragmentOverviewBinding
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.getParcelableExtra
 import com.johnreg.recipeapp.utils.loadFrom
@@ -19,18 +19,24 @@ import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
 
-    private lateinit var binding: FragmentOverviewBinding
+    private var _binding: FragmentOverviewBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOverviewBinding.inflate(inflater, container, false)
+        _binding = FragmentOverviewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getResultBundleAndSetUI()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun getResultBundleAndSetUI() {

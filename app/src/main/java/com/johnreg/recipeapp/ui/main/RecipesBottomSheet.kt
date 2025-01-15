@@ -10,19 +10,20 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import com.johnreg.recipeapp.databinding.BottomSheetRecipesBinding
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_CHIP_ID
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_DIET_TYPE
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_MEAL_TYPE
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.showToast
-import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RecipesBottomSheet : BottomSheetDialogFragment() {
 
-    private lateinit var binding: BottomSheetRecipesBinding
+    private var _binding: BottomSheetRecipesBinding? = null
+    private val binding get() = _binding!!
 
     private val recipeViewModel: RecipeViewModel by viewModels()
 
@@ -35,7 +36,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = BottomSheetRecipesBinding.inflate(inflater, container, false)
+        _binding = BottomSheetRecipesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,6 +45,11 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         setData()
         setListeners()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setData() {

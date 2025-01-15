@@ -17,8 +17,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
-import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.data.models.Recipe
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
+import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
+import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_RESULT_COUNT
@@ -32,28 +34,27 @@ import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
-import com.johnreg.recipeapp.data.viewmodels.MainViewModel
-import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
 
-    private lateinit var binding: FragmentRecipesBinding
-
-    private val recipesAdapter by lazy { RecipesAdapter() }
+    private var _binding: FragmentRecipesBinding? = null
+    private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
 
     private val args: RecipesFragmentArgs by navArgs()
 
+    private val recipesAdapter = RecipesAdapter()
+
     private var isDataRequested = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecipesBinding.inflate(inflater, container, false)
+        _binding = FragmentRecipesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -63,6 +64,11 @@ class RecipesFragment : Fragment() {
         setMenu()
         setRvAndFab()
         checkDatabase()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setMenu() {
