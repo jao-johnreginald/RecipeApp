@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp.viewmodels
+package com.johnreg.recipeapp.data.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,9 +10,9 @@ import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.data.entities.JokeEntity
 import com.johnreg.recipeapp.data.entities.RecipeEntity
 import com.johnreg.recipeapp.data.repositories.MainRepository
-import com.johnreg.recipeapp.models.Joke
-import com.johnreg.recipeapp.models.Recipe
-import com.johnreg.recipeapp.utils.NetworkCallback
+import com.johnreg.recipeapp.data.models.Joke
+import com.johnreg.recipeapp.data.models.Recipe
+import com.johnreg.recipeapp.data.repositories.NetworkCallback
 import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.johnreg.recipeapp.databinding.ItemIngredientBinding
-import com.johnreg.recipeapp.models.Ingredient
+import com.johnreg.recipeapp.data.models.Ingredient
 import com.johnreg.recipeapp.utils.Constants.BASE_IMAGE_URL
 import com.johnreg.recipeapp.utils.loadFrom
 

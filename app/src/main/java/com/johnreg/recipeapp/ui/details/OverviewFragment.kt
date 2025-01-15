@@ -11,7 +11,7 @@ import androidx.core.text.parseAsHtml
 import androidx.fragment.app.Fragment
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentOverviewBinding
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Result
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.getParcelableExtra
 import com.johnreg.recipeapp.utils.loadFrom

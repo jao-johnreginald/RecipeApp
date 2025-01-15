@@ -2,7 +2,7 @@ package com.johnreg.recipeapp.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.johnreg.recipeapp.models.Recipe
+import com.johnreg.recipeapp.data.models.Recipe
 
 @Entity(tableName = "recipe_table")
 data class RecipeEntity(

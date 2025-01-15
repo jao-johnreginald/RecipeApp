@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp.models
+package com.johnreg.recipeapp.data.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

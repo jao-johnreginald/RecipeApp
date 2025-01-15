@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.databinding.FragmentIngredientsBinding
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Result
 import com.johnreg.recipeapp.ui.adapters.IngredientsAdapter
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.getParcelableExtra

@@ -2,7 +2,7 @@ package com.johnreg.recipeapp.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Result
 
 @Entity(tableName = "favorites_table")
 data class FavoriteEntity(

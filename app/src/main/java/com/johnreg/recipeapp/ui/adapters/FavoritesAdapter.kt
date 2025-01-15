@@ -15,7 +15,7 @@ import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.ui.main.FavoritesFragmentDirections
 import com.johnreg.recipeapp.utils.DiffUtilCallback
-import com.johnreg.recipeapp.viewmodels.MainViewModel
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 
 class FavoritesAdapter(
     private val fragmentActivity: FragmentActivity,

@@ -8,7 +8,7 @@ import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ItemRecipeBinding
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Result
 import com.johnreg.recipeapp.utils.Constants.TOTAL_MAX
 import com.johnreg.recipeapp.utils.loadFrom
 import org.jsoup.Jsoup

@@ -18,7 +18,7 @@ import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
-import com.johnreg.recipeapp.viewmodels.MainViewModel
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.johnreg.recipeapp.models.Recipe
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Recipe
+import com.johnreg.recipeapp.data.models.Result
 import com.johnreg.recipeapp.ui.main.RecipesFragmentDirections
 import com.johnreg.recipeapp.utils.DiffUtilCallback
 

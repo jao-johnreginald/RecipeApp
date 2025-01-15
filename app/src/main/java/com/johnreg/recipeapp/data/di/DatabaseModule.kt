@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp.di
+package com.johnreg.recipeapp.data.di
 
 import android.content.Context
 import androidx.room.Room

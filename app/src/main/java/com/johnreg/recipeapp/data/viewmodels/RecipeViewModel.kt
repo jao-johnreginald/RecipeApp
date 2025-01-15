@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp.viewmodels
+package com.johnreg.recipeapp.data.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.repositories.DataStoreRepository
 import com.johnreg.recipeapp.data.repositories.Types
-import com.johnreg.recipeapp.utils.NetworkCallback
+import com.johnreg.recipeapp.data.repositories.NetworkCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

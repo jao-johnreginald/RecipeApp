@@ -16,7 +16,7 @@ import com.johnreg.recipeapp.utils.Constants.DEFAULT_DIET_TYPE
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_MEAL_TYPE
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.showToast
-import com.johnreg.recipeapp.viewmodels.RecipeViewModel
+import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

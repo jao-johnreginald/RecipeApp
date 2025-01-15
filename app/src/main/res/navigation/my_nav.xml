@@ -70,6 +70,6 @@
         tools:layout="@layout/activity_details">
         <argument
             android:name="result"
-            app:argType="com.johnreg.recipeapp.models.Result" />
+            app:argType="com.johnreg.recipeapp.data.models.Result" />
     </activity>
 </navigation>

@@ -3,8 +3,8 @@ package com.johnreg.recipeapp.data.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.johnreg.recipeapp.models.Recipe
-import com.johnreg.recipeapp.models.Result
+import com.johnreg.recipeapp.data.models.Recipe
+import com.johnreg.recipeapp.data.models.Result
 
 class RecipeConverter {
 

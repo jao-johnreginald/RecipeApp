@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.ActivityMainBinding
 import com.johnreg.recipeapp.utils.showToast
-import com.johnreg.recipeapp.viewmodels.RecipeViewModel
+import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

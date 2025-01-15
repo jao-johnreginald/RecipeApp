@@ -1,4 +1,4 @@
-package com.johnreg.recipeapp.utils
+package com.johnreg.recipeapp.data.repositories
 
 import android.content.Context
 import android.net.ConnectivityManager

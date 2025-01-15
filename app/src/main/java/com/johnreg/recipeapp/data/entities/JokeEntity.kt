@@ -3,7 +3,7 @@ package com.johnreg.recipeapp.data.entities
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.johnreg.recipeapp.models.Joke
+import com.johnreg.recipeapp.data.models.Joke
 
 @Entity(tableName = "joke_table")
 data class JokeEntity(

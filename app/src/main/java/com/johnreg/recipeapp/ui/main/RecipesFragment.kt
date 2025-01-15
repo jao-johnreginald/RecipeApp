@@ -18,7 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.databinding.FragmentRecipesBinding
-import com.johnreg.recipeapp.models.Recipe
+import com.johnreg.recipeapp.data.models.Recipe
 import com.johnreg.recipeapp.ui.adapters.RecipesAdapter
 import com.johnreg.recipeapp.utils.Constants.API_KEY
 import com.johnreg.recipeapp.utils.Constants.DEFAULT_RESULT_COUNT
@@ -32,8 +32,8 @@ import com.johnreg.recipeapp.utils.Constants.QUERY_TYPE
 import com.johnreg.recipeapp.utils.NetworkResult
 import com.johnreg.recipeapp.utils.observeOnce
 import com.johnreg.recipeapp.utils.setErrorTextAndListener
-import com.johnreg.recipeapp.viewmodels.MainViewModel
-import com.johnreg.recipeapp.viewmodels.RecipeViewModel
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
+import com.johnreg.recipeapp.data.viewmodels.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

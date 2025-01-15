@@ -1,7 +1,7 @@
 package com.johnreg.recipeapp.data.remote
 
-import com.johnreg.recipeapp.models.Joke
-import com.johnreg.recipeapp.models.Recipe
+import com.johnreg.recipeapp.data.models.Joke
+import com.johnreg.recipeapp.data.models.Recipe
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
