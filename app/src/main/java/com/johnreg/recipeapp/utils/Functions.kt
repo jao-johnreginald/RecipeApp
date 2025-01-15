@@ -16,26 +16,25 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import coil.load
+import coil.request.Disposable
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.utils.Constants.DURATION_MILLIS
 
-fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-    observe(lifecycleOwner, object : Observer<T> {
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) = observe(
+    lifecycleOwner, object : Observer<T> {
         override fun onChanged(value: T) {
             removeObserver(this)
             observer.onChanged(value)
         }
-    })
-}
+    }
+)
 
 inline fun <reified T : Parcelable> Bundle.getParcelableExtra(key: String): T? = when {
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelable(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelable(key) as? T
 }
 
-fun Context.showToast(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-}
+fun Context.showToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
 fun TextView.setErrorTextAndListener(errorText: String?, listener: (textView: TextView) -> Unit) {
     val loadCacheText = resources.getString(R.string.load_cache)
@@ -72,7 +71,7 @@ fun TextView.setErrorTextAndListener(errorText: String?, listener: (textView: Te
  *
  * The images that were not cached correctly will display this error icon.
  */
-fun ImageView.loadFrom(imageUrl: String) = load(imageUrl) {
+fun ImageView.loadFrom(imageUrl: String): Disposable = load(imageUrl) {
     crossfade(DURATION_MILLIS)
     error(R.drawable.ic_error)
 }
