@@ -9,9 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
 import com.johnreg.recipeapp.data.entities.JokeEntity
 import com.johnreg.recipeapp.data.entities.RecipeEntity
-import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.data.models.Joke
 import com.johnreg.recipeapp.data.models.Recipe
+import com.johnreg.recipeapp.data.repositories.MainRepository
 import com.johnreg.recipeapp.data.repositories.NetworkCallback
 import com.johnreg.recipeapp.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel

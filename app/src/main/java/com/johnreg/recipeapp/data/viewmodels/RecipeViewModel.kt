@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.johnreg.recipeapp.data.repositories.DataStoreRepository
-import com.johnreg.recipeapp.data.repositories.Types
 import com.johnreg.recipeapp.data.repositories.NetworkCallback
+import com.johnreg.recipeapp.data.repositories.Types
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

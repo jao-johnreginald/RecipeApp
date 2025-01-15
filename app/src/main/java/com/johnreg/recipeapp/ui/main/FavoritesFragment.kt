@@ -14,9 +14,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.johnreg.recipeapp.R
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import com.johnreg.recipeapp.databinding.FragmentFavoritesBinding
 import com.johnreg.recipeapp.ui.adapters.FavoritesAdapter
-import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

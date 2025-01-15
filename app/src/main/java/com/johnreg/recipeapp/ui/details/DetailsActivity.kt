@@ -14,11 +14,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.johnreg.recipeapp.R
 import com.johnreg.recipeapp.data.entities.FavoriteEntity
+import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import com.johnreg.recipeapp.databinding.ActivityDetailsBinding
 import com.johnreg.recipeapp.ui.adapters.PagerAdapter
 import com.johnreg.recipeapp.utils.Constants.RESULT_BUNDLE_KEY
 import com.johnreg.recipeapp.utils.showToast
-import com.johnreg.recipeapp.data.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
